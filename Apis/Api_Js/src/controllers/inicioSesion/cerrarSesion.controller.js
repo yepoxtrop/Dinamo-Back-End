@@ -13,7 +13,7 @@ MODIFICACION      : Se crea controller
 /* tokens */
 import { validarToken } from "../../modules/tokens/validarToken.js";
 /* base de datos */
-import { eliminarToken } from "../../modules/baseDatos/consultasPrisma/eliminarToken.js";
+import { eliminarToken } from "../../modules/baseDatos/prisma/procedimientos/tokens.js";
 
 /**
  * Controlador para cerrar sesión

@@ -1,6 +1,23 @@
-/* Eliminar Token */
+import clientePrisma from "../../../../settings/prisma/clientePrisma.js";
 
-import clientePrisma from "../../../settings/prisma/clientePrisma.js";
+export const insertarToken = async({usuarioId, tokenValor}) => {
+
+    try {
+        const consulta = clientePrisma.tokens.create({
+            data: {
+                token_valor: tokenValor,
+                usuario_id_fk: usuarioId
+            }
+        });         
+        
+        return consulta;
+
+    } catch (error) {
+        throw new Error(`Error al ejecutar el usp_insertar_token:${error.message} `);
+    }
+}
+
+
 
 /**
  * Elimina un token específico de la base de datos

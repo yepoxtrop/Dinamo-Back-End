@@ -62,5 +62,3 @@ create procedure sp_firma_individual
 
 	end
 go
-
-exec sp_firma_individual 4,'12313213213213','hfskhdfkshjdflkjhsldfhjsdlfkhjsdlkjf','ruta','ruta','ruta','ruta','2025-12-25 14:30:00.1230000', '2026-12-25 14:30:00.1230000';

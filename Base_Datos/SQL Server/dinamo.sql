@@ -25,8 +25,8 @@ go
 if OBJECT_ID('roles') is null
 	begin
 		create table roles (
-			rol_id int not null identity(1,1), 
-		    rol_nombre varchar(50) not null unique,
+			rol_id			int not null identity(1,1), 
+		    rol_nombre		varchar(50) not null unique,
 			rol_descripcion nvarchar(300) not null,
 		    constraint pk_rol primary key(rol_id) /* llave primaria */
 		); 
@@ -36,21 +36,23 @@ if OBJECT_ID('roles') is null
 if OBJECT_ID('usuarios') is null
 	begin
 		create table usuarios (
-			usuario_id int not null identity(1,1),
-			usuario_nombre varchar(50) not null unique,
+			usuario_id			int not null identity(1,1),
+			usuario_nombre		varchar(50) not null unique,
 			usuario_nombre_real nvarchar(200) not null,
+			usuario_correo nvarchar(500) null,
 			rol_id_fk int not null default 4,
 			constraint pk_usuario primary key(usuario_id), /* llave primaria */
 			constraint fk_rol_en_usuarios foreign key(rol_id_fk) references roles(rol_id) /* llave foranea */
 		); 
+
 		print('Tabla USUARIOS creada');
 	end
 
 if OBJECT_ID('tipos_correos') is null
 	begin
 		create table tipos_correos (
-			tipo_correo_id int not null identity(1,1), 
-		    tipo_correo_nombre varchar(50) not null unique,
+			tipo_correo_id			int not null identity(1,1), 
+		    tipo_correo_nombre		varchar(50) not null unique,
 			tipo_correo_descripcion nvarchar(300) not null,
 		    constraint pk_tipo_correo primary key(tipo_correo_id) /* llave primaria */
 		); 
@@ -60,10 +62,10 @@ if OBJECT_ID('tipos_correos') is null
 if OBJECT_ID('plantillas_correos') is null
 	begin
 		create table plantillas_correos (
-			plantilla_correo_id int not null identity(1,1), 
-		    plantilla_correo_nombre varchar(50) not null unique,
-			plantilla_correo_descripcion nvarchar(300) not null,
-			plantilla_correo_contenido nvarchar(MAX) not null,
+			plantilla_correo_id				int not null identity(1,1), 
+		    plantilla_correo_nombre			varchar(50) not null unique,
+			plantilla_correo_descripcion	nvarchar(300) not null,
+			plantilla_correo_contenido		nvarchar(MAX) not null,
 		    constraint pk_plantilla_correo primary key(plantilla_correo_id) /* llave primaria */
 		); 
 		print('Tabla PLANTILLAS_CORREOS creada');
@@ -72,12 +74,12 @@ if OBJECT_ID('plantillas_correos') is null
 if OBJECT_ID('correos_enviados') is null
 	begin
 		create table correos_enviados (
-			correo_enviado_id int not null identity(1,1),
-			correo_enviado_fecha datetime2 not null,
-			correo_enviado_cuerpo nvarchar(MAX) not null,
-			usuario_id_fk int not null,
-			tipo_correo_id_fk int not null,
-			plantilla_correo_id_fk int not null,
+			correo_enviado_id		int not null identity(1,1),
+			correo_enviado_fecha	datetime2 not null,
+			correo_enviado_cuerpo	nvarchar(MAX) not null,
+			usuario_id_fk			int not null,
+			tipo_correo_id_fk		int not null,
+			plantilla_correo_id_fk	int not null,
 			constraint pk_correo_usado primary key(correo_enviado_id), /* llave primaria */
 			constraint fk_usuario_en_correo_enviado foreign key(usuario_id_fk) references usuarios(usuario_id), /* llave foranea */
 			constraint fk_tipo_correo_en_correo_enviado foreign key(tipo_correo_id_fk) references tipos_correos(tipo_correo_id), /* llave foranea */
@@ -90,10 +92,10 @@ if OBJECT_ID('correos_enviados') is null
 if OBJECT_ID('sesiones') is null
 	 begin
 		create table sesiones (
-			sesion_id int not null identity(1,1),
-			sesion_fecha datetime2 not null,
-			sesion_dispositivo varchar(50) not null,
-			usuario_id_fk int not null,
+			sesion_id			int not null identity(1,1),
+			sesion_fecha		datetime2 not null,
+			sesion_dispositivo	varchar(50) not null,
+			usuario_id_fk		int not null,
 			constraint pk_sesion primary key(sesion_id), /* llave primaria */
 			constraint fk_usuario_en_inicio_sesion foreign key(usuario_id_fk) references usuarios(usuario_id) /* llave foranea */
 		);
@@ -103,10 +105,10 @@ if OBJECT_ID('sesiones') is null
 if OBJECT_ID('tokens') is null
 	begin 
 		create table tokens (
-			token_id int not null identity(1,1),
-			token_valor	nvarchar(2000) not null,
-			token_duracion varchar(50) not null default '1 hora',
-			usuario_id_fk int not null,
+			token_id		int not null identity(1,1),
+			token_valor		nvarchar(2000) not null,
+			token_duracion	varchar(50) not null default '1 hora',
+			usuario_id_fk	int not null,
 			constraint pk_token primary key(token_id), /* llave primaria */
 			constraint fk_usuario_en_tokens foreign key(usuario_id_fk) references usuarios(usuario_id), /* llave foranea */
 			constraint check_token_duracion check(token_duracion='1 hora'), /* restriccion check */
@@ -218,13 +220,12 @@ if OBJECT_ID('firmas') is null
 		create table firmas (
 			firma_id int not null identity(1,1),
 			firma_pub nvarchar(MAX) not null,
-			firma_csr nvarchar(MAX) not null,
 			firma_crt nvarchar(MAX) not null,
 			firma_p12 nvarchar(MAX) not null,
 	 		firma_fecha_creacion datetime2 not null,
 			firma_fecha_vencimiento datetime2 not null,
 			firma_estado bit not null,
-			usuario_id_fk int not null,
+			usuario_id_fk int not null unique,
 			tipo_firma_id_fk int not null,
 			constraint pk_firma primary key(firma_id), /* llave primaria */
 			constraint fk_usuario_en_firma foreign key(usuario_id_fk) references usuarios(usuario_id), /* llave foranea */

@@ -11,69 +11,77 @@ MODIFICACION      : Se crea sp
 ========================================================================================================================*/
 
 /* Modilos usados */
+import { sesion } from "../../modules/baseDatos/prisma/procedimientos/sesiones.js";
+import { insertarToken } from "../../modules/baseDatos/prisma/procedimientos/tokens.js";
 /* dominio */
 import { validarUsuarioDominio } from "../../modules/dominio/validarUsuarioDominio.js";
 import { consultadrUsuarioDominio } from "../../modules/dominio/consultarUsuarioDominio.js";
 /* base de datos */
-import { peticionInicioSesion } from "../../modules/baseDatos/peticionInicioSesion.js";
-import { insertarToken } from "../../modules/baseDatos/consultasPrisma/insertarToken.js";
 /* tokens */
 import { crearToken } from "../../modules/tokens/crearToken.js";
 import { cookieMaxAge, cookieDomain, cookieSecure, cookieSameSite } from "../../settings/tokens/variablesToken.js";
 
 
 export const inicioSesionController = async (request, response) => {
-    const datos = request.body;
+    try {
+        const datos = request.body;
 
-    const loginDominio = await validarUsuarioDominio(datos);
+        const loginDominio = await validarUsuarioDominio(datos);
 
 
-    if (loginDominio === undefined) {
-        let consulta =  await consultadrUsuarioDominio(datos);
-        
-        let procedimientoSesion = await peticionInicioSesion({
-            sAMAccountName: consulta[0].sAMAccountName,
-            cn: consulta[0].cn,
-            fecha: datos.fecha ? new Date(datos.fecha) : new Date(),
-            dispositivo: request.headers['user-agent']
-        });
+        if (loginDominio === undefined) {
+            let consulta =  await consultadrUsuarioDominio(datos);
 
-        let token = await crearToken({
-            usuarioId: procedimientoSesion.usuario_id,
-            usuarioIdRol: procedimientoSesion.rol_id_fk,
-            usuarioNombre: datos.usuario,
-            usuarioNombreCompleto: consulta[0].cn,
-            usuarioCedula: consulta[0].telephoneNumber
-        })
 
-        
-        let procedimientoToken = await insertarToken({
-            usuarioId: procedimientoSesion.usuario_id,
-            tokenValor: token
-        })
 
-        // Configurar cookie con las opciones del .env
-        const cookieOptions = {
-            httpOnly: true, // Previene acceso desde JavaScript (XSS)
-            secure: cookieSecure, // Solo HTTPS en producción
-            sameSite: cookieSameSite, // Protección CSRF
-            maxAge: cookieMaxAge, // Tiempo de expiración en milisegundos
-        };
-        
-        // Agregar dominio solo si está configurado
-        if (cookieDomain) {
-            cookieOptions.domain = cookieDomain;
+            let procedimientoSesion = await sesion({
+                nombre_dominio_usuario: consulta[0].sAMAccountName,
+                nombre_real_usuario: consulta[0].cn,
+                fecha: datos.fecha ? new Date(datos.fecha) : new Date(),
+                dispositivo: request.headers['user-agent']
+            });
+
+            let token = await crearToken({
+                usuarioId: procedimientoSesion[0]["id_usuario"],
+                usuarioIdRol: procedimientoSesion[0]["id_rol"],
+                usuarioNombre: datos.usuario,
+                usuarioNombreCompleto: consulta[0].cn,
+                usuarioCedula: consulta[0].telephoneNumber
+            })
+
+            let procedimientoToken = await insertarToken({
+                usuarioId: procedimientoSesion[0]["id_usuario"],
+                tokenValor: token
+            })
+
+            // Configurar cookie con las opciones del .env
+            const cookieOptions = {
+                httpOnly: true, // Previene acceso desde JavaScript (XSS)
+                secure: cookieSecure, // Solo HTTPS en producción
+                sameSite: cookieSameSite, // Protección CSRF
+                maxAge: cookieMaxAge, // Tiempo de expiración en milisegundos
+            };
+
+            // Agregar dominio solo si está configurado
+            if (cookieDomain) {
+                cookieOptions.domain = cookieDomain;
+            }
+
+            response.cookie("token", token, cookieOptions)
+
+            response.status(200).json({
+                "Mensaje":"Acceso existoso",
+                "Token":token
+            })
+        }else{
+            response.status(401).json({
+                "Mensaje":"Error de autenticacion en el dominio",
+            })
         }
-
-        response.cookie("token", token, cookieOptions)
-
-        response.status(200).json({
-            "Mensaje":"Acceso existoso",
-            "Token":token
-        })
-    }else{
-        response.status(401).json({
-            "Mensaje":"Error de autenticacion en el dominio",
+    } catch (error) {
+        
+        response.status(500).json({
+            "Mensaje":"Error interno del servidor",
         })
     }
 }

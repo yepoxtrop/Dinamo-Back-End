@@ -13,7 +13,7 @@ MODIFICACION      : Se crea sp
 
 /* Modilos usados */
 /* tokens */
-import { validarToken } from "../../modules/tokens/validarToken.js";
+import { decodificarToken } from "../../modules/tokens/decodificarToken.js";
 /* carpetas y archivos */
 import { buscarFirmas } from "../../modules/firmasDigitales/carpetas/buscarFirmas.js";
 import { creacionArchivosFirmas } from "../../modules/firmasDigitales/archivos/creacion/crearArchivosFirmas.js";
@@ -21,25 +21,55 @@ import { correoUsuarioExito } from "../../modules/correo/correoUsuarioExito.js";
 import { correoUsuarioFallo } from "../../modules/correo/correoUsuarioFallo.js";
 import { correoSupervisor } from "../../modules/correo/correoSupervisor.js";
 
-export const firmaIndividualController = async (request, response) => {
-    const datos = request.body;
-    /* Rutas */
-    const peticionRutaFirmas = await buscarFirmas({ 
-        nombre_usuario: datos.nombre_usuario, 
-        cedula: datos.cedula 
-    }); 
 
-    /* Ficheros */
-    const peticionArchivos = await creacionArchivosFirmas({
-        nombre_usuario: datos.nombre,
-        fechaCreacion: datos.fechaCreacion,
-        contrasena: datos.contrasena,
-        rutaArchivoPub: peticionRutaFirmas.rutaArchivoPub,
-        rutaArchivoCrt: peticionRutaFirmas.rutaArchivoCrt,
-        rutaArchivoP12: peticionRutaFirmas.rutaArchivoP12
-    });
-    console.log(peticionArchivos)
-    return response.status(200).json({
-        "Datos":peticionArchivos,
-    });
+export const firmaIndividualController = async (request, response) => {
+
+    const datos = request.body;
+
+    const cookieToken = request.cookies.token; 
+    const infoToken = await decodificarToken(cookieToken);
+
+    const nombreDominioUsuario = infoToken.Resultado["nombreUsuario"];
+
+    try{
+
+        /* Crear Rutas para Ficheros */
+        const peticionRutaFirmas = await buscarFirmas({ 
+            nombre_usuario: datos.nombre_usuario, 
+            cedula: datos.cedula 
+        }); 
+
+        /* Crear Ficheros */
+        const peticionArchivos = await creacionArchivosFirmas({
+            nombre_usuario: datos.nombre,
+            fechaCreacion: datos.fechaCreacion,
+            contrasena: datos.contrasena,
+            rutaArchivoPub: peticionRutaFirmas.rutaArchivoPub,
+            rutaArchivoCrt: peticionRutaFirmas.rutaArchivoCrt,
+            rutaArchivoP12: peticionRutaFirmas.rutaArchivoP12
+        });
+
+        /* Insertar Firma en la base de datos */
+
+        /* Insertar la llave privada en la base de datos */
+
+
+        /* Enviar correo con firma anexa */
+
+
+        return response.status(200).json({
+            "Mensaje": "Firma digital creada exitosamente",
+            "Estado": true
+        });
+
+    } catch(error){
+
+        return response.status(500).json({
+            "Mensaje": "Error al crear la firma digital",
+            "Estado": false
+        });
+
+    }
+
+    
 }

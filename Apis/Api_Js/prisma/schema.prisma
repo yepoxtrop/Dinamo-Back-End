@@ -4,14 +4,13 @@ generator client {
 
 datasource db {
   provider = "sqlserver"
-  url      = env("DATABASE_URL")
 }
 
 model configuracion_firmas {
   configuracion_firma_id        Int            @id(map: "pk_configuracion_firma") @default(autoincrement())
-  configuracion_firma_version   String         @default("X.509", map: "DF__configura__confi__0A9D95DB") @db.NVarChar(100)
+  configuracion_firma_version   String         @default("X.509", map: "DF__configura__confi__778AC167") @db.NVarChar(100)
   configuracion_firma_serie     String         @db.NVarChar(100)
-  configuracion_firma_algoritmo String         @default("rsa", map: "DF__configura__confi__0B91BA14") @db.NVarChar(100)
+  configuracion_firma_algoritmo String         @default("rsa", map: "DF__configura__confi__787EE5A0") @db.NVarChar(100)
   configuracion_firma_emisor    String         @db.NVarChar(300)
   configuracion_firma_cn        String         @db.NVarChar(300)
   configuracion_firma_o         String         @db.NVarChar(100)
@@ -28,7 +27,7 @@ model configuracion_firmas {
 model contrasenas_firmas {
   contrasena_firma_id    Int    @id(map: "pk_contrasena_firma") @default(autoincrement())
   contrasena_firma_valor String
-  firma_id_fk            Int    @unique(map: "UQ__contrase__2872F92C450F0C9A")
+  firma_id_fk            Int    @unique(map: "UQ__contrase__2872F92C88E59716")
   firmas                 firmas @relation(fields: [firma_id_fk], references: [firma_id], onUpdate: NoAction, map: "fk_firma_en_contrasena_firma")
 }
 
@@ -94,7 +93,6 @@ model documentos_validados {
 model firmas {
   firma_id                Int                    @id(map: "pk_firma") @default(autoincrement())
   firma_pub               String                 @db.NVarChar(Max)
-  firma_csr               String                 @db.NVarChar(Max)
   firma_crt               String                 @db.NVarChar(Max)
   firma_p12               String                 @db.NVarChar(Max)
   firma_fecha_creacion    DateTime
@@ -113,7 +111,7 @@ model firmas {
 model llaves_privadas {
   llave_id    Int    @id(map: "pk_llave") @default(autoincrement())
   llave_valor String @db.NVarChar(Max)
-  firma_id_fk Int    @unique(map: "UQ__llaves_p__2872F92C73F6328C")
+  firma_id_fk Int    @unique(map: "UQ__llaves_p__2872F92C80F34352")
   firmas      firmas @relation(fields: [firma_id_fk], references: [firma_id], onUpdate: NoAction, map: "fk_firmas_en_llave_privada")
 }
 
@@ -129,7 +127,7 @@ model peticiones_validacion {
 
 model plantillas_correos {
   plantilla_correo_id          Int                @id(map: "pk_plantilla_correo") @default(autoincrement())
-  plantilla_correo_nombre      String             @unique(map: "UQ__plantill__88EDD0D79D7CD3DB") @db.VarChar(50)
+  plantilla_correo_nombre      String             @unique(map: "UQ__plantill__88EDD0D75E5B84E9") @db.VarChar(50)
   plantilla_correo_descripcion String             @db.NVarChar(300)
   plantilla_correo_contenido   String             @db.NVarChar(Max)
   correos_enviados             correos_enviados[]
@@ -139,7 +137,7 @@ model reportes {
   reporte_id                Int                   @id(map: "pk_reporte") @default(autoincrement())
   reporte_ubicacion         String                @db.NVarChar(Max)
   reporte_fecha             DateTime
-  reporte_existencia        Boolean               @default(true, map: "DF__reportes__report__6A30C649")
+  reporte_existencia        Boolean               @default(true, map: "DF__reportes__report__571DF1D5")
   peticion_validacion_id_fk Int
   tipo_reporte_id_fk        Int
   peticiones_validacion     peticiones_validacion @relation(fields: [peticion_validacion_id_fk], references: [peticion_validacion_id], onUpdate: NoAction, map: "fk_peticion_validacion_en_reporte")
@@ -148,7 +146,7 @@ model reportes {
 
 model roles {
   rol_id          Int        @id(map: "pk_rol") @default(autoincrement())
-  rol_nombre      String     @unique(map: "UQ__roles__4900B49A91A80102") @db.VarChar(50)
+  rol_nombre      String     @unique(map: "UQ__roles__4900B49A5B0AFFFD") @db.VarChar(50)
   rol_descripcion String     @db.NVarChar(300)
   usuarios        usuarios[]
 }
@@ -163,21 +161,21 @@ model sesiones {
 
 model tipo_firmas {
   tipo_firma_id          Int      @id(map: "pk_tipo_firma") @default(autoincrement())
-  tipo_firma_nombre      String   @unique(map: "UQ__tipo_fir__1557963A58CAB93A") @db.NVarChar(30)
+  tipo_firma_nombre      String   @unique(map: "UQ__tipo_fir__1557963AFF6732A1") @db.NVarChar(30)
   tipo_firma_descripcion String   @db.NVarChar(300)
   firmas                 firmas[]
 }
 
 model tipo_reportes {
   tipo_reporte_id          Int        @id(map: "pk_tipo_reporte") @default(autoincrement())
-  tipo_reporte_nombre      String     @unique(map: "UQ__tipo_rep__910808BDD51AEAD3") @db.VarChar(50)
+  tipo_reporte_nombre      String     @unique(map: "UQ__tipo_rep__910808BD6971B219") @db.VarChar(50)
   tipo_reporte_descripcion String     @db.NVarChar(300)
   reportes                 reportes[]
 }
 
 model tipos_correos {
   tipo_correo_id          Int                @id(map: "pk_tipo_correo") @default(autoincrement())
-  tipo_correo_nombre      String             @unique(map: "UQ__tipos_co__AD329B0A3F65A097") @db.VarChar(50)
+  tipo_correo_nombre      String             @unique(map: "UQ__tipos_co__AD329B0A446E12B3") @db.VarChar(50)
   tipo_correo_descripcion String             @db.NVarChar(300)
   correos_enviados        correos_enviados[]
 }
@@ -185,16 +183,16 @@ model tipos_correos {
 model tokens {
   token_id       Int      @id(map: "pk_token") @default(autoincrement())
   token_valor    String   @db.NVarChar(2000)
-  token_duracion String   @default("1 hora", map: "DF__tokens__token_du__5FB337D6") @db.VarChar(50)
+  token_duracion String   @default("1 hora", map: "DF__tokens__token_du__4CA06362") @db.VarChar(50)
   usuario_id_fk  Int
   usuarios       usuarios @relation(fields: [usuario_id_fk], references: [usuario_id], onUpdate: NoAction, map: "fk_usuario_en_tokens")
 }
 
 model usuarios {
   usuario_id            Int                     @id(map: "pk_usuario") @default(autoincrement())
-  usuario_nombre        String                  @unique(map: "UQ__usuarios__220D44A28017EFBC") @db.VarChar(50)
+  usuario_nombre        String                  @unique(map: "UQ__usuarios__220D44A291B0A540") @db.VarChar(50)
   usuario_nombre_real   String                  @db.NVarChar(200)
-  rol_id_fk             Int                     @default(4, map: "DF__usuarios__rol_id__4E88ABD4")
+  rol_id_fk             Int                     @default(4, map: "DF__usuarios__rol_id__3B75D760")
   correos_enviados      correos_enviados[]
   firmas                firmas[]
   peticiones_validacion peticiones_validacion[]
@@ -205,7 +203,17 @@ model usuarios {
 
 model version_firmas {
   version_firma_id          Int                    @id(map: "pk_version_firma") @default(autoincrement())
-  version_firma_nombre      String                 @unique(map: "UQ__version___FD9084688837A16C") @db.NVarChar(50)
+  version_firma_nombre      String                 @unique(map: "UQ__version___FD908468F7C79C47") @db.NVarChar(50)
   version_firma_descripcion String                 @db.NVarChar(300)
   configuracion_firmas      configuracion_firmas[]
+}
+
+model sysdiagrams {
+  name         String @db.NVarChar(128)
+  principal_id Int
+  diagram_id   Int    @id(map: "PK__sysdiagr__C2B05B611DFF1920") @default(autoincrement())
+  version      Int?
+  definition   Bytes?
+
+  @@unique([principal_id, name], map: "UK_principal_name")
 }
