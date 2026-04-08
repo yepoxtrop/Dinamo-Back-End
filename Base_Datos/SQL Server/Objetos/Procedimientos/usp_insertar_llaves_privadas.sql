@@ -58,13 +58,15 @@ begin
 
 	/* Insertar contraseña de firma */
 	insert into [dbo].[contrasenas_firmas]([contrasena_firma_valor], [firma_id_fk]) values(@contrasena_firma, @id_firma); 
+
+	select @id_firma as 'id_firma';
 end 
 go
 
 /*
 PROCEDIMIENTO:	usp_consultar_firma_usuario
 DESCRIPCION:	Se encarga de consultar si el usuario tiene firmas existentes
-RESULTADO:		...		-idPeticionNueva:id de la peticion
+RESULTADO:		...
 */
 create or alter procedure usp_consultar_firma_usuario
 	@nombre_usuario	nvarchar(100)
@@ -78,10 +80,15 @@ begin
 	/* Buscar id del usuario */
 	select @id_usuario = [usuario_id] from [dbo].[usuarios] where [usuario_nombre] = @nombre_usuario;
 
+	/* Buscar id de la firma */
+	select @id_firma = [firma_id] from [dbo].[firmas] where [usuario_id_fk] = @id_usuario;
+
 	/* Buscar firma */
-	if exists (select 1 from dbo.firmas where usuario_id_fk = @id_usuario)
-		select * from [dbo].[firmas] where [usuario_id_fk] = @id_usuario;
-	
+	if @id_firma is not null 
+		select @id_firma as 'id_firma'
+	else
+		select null as 'id_firma'
+
 end
 go
 

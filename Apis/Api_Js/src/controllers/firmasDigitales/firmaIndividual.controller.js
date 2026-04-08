@@ -1,26 +1,27 @@
-/*========================================================================================================================
-FECHA CREACION: 2026/01/22
-AUTOR         : LUIS ANGEL SARMIENTO DIAZ
-DETALLE       : Controlador para la creacion de firmas digitales individuales, esto incluye ficheros
-                .key, .pub, .csr, .crt, .p12, con su respectiva carpeta, y adicional con el
-                envio de correos de notificacion al usuario y supervisor
-Modulos       : Tokens, creacion de carpetas, creacion de archivos, procedimientos almacenados y 
-                modulos de node
-FECHA MODIFICACION: 2026/01/22
-AUTOR MODIFICACION: LUIS ANGEL SARMIENTO DIAZ
-MODIFICACION      : Se crea sp
-========================================================================================================================*/
-
 /* Modilos usados */
+import { insertarFirma } from "../../modules/baseDatos/prisma/procedimientos/firmas.js";
 /* tokens */
 import { decodificarToken } from "../../modules/tokens/decodificarToken.js";
 /* carpetas y archivos */
 import { buscarFirmas } from "../../modules/firmasDigitales/carpetas/buscarFirmas.js";
 import { creacionArchivosFirmas } from "../../modules/firmasDigitales/archivos/creacion/crearArchivosFirmas.js";
-import { correoUsuarioExito } from "../../modules/correo/correoUsuarioExito.js";
-import { correoUsuarioFallo } from "../../modules/correo/correoUsuarioFallo.js";
-import { correoSupervisor } from "../../modules/correo/correoSupervisor.js";
 
+
+/**
+ * Controlador para gestionar la creación de firmas digitales individuales.
+ * @author Luis Angel Sarmiento Diaz
+ * @param {Request} request - Objeto de solicitud HTTP que contiene los datos necesarios para crear la firma en el body.
+ * @param {Response} response - Objeto de respuesta HTTP utilizado para enviar la respuesta al cliente.
+ * @description Este controlador maneja la creación de firmas digitales individuales. Realiza los siguientes pasos:
+ * 1. Decodifica el token de la cookie para obtener la información del usuario.
+ * 2. Crea las rutas para los archivos de firma.
+ * 3. Crea los archivos de firma (.pub, .crt, .p12, etc.).
+ * 4. Inserta la firma, llave privada y contraseña en la base de datos.
+ * 5. Envía un correo con la firma adjunta (pendiente de implementación).
+ * 6. Envía el archivo .p12 como respuesta de descarga.
+ * @returns {File} - Devuelve el archivo .p12 como descarga adjunta.
+ * @throws {Error} - Lanza un error si ocurre un problema durante la decodificación, creación de archivos o inserción en la base de datos.
+ */
 
 export const firmaIndividualController = async (request, response) => {
 
@@ -30,6 +31,7 @@ export const firmaIndividualController = async (request, response) => {
     const infoToken = await decodificarToken(cookieToken);
 
     const nombreDominioUsuario = infoToken.Resultado["nombreUsuario"];
+    const nombreRealUsuario = infoToken.Resultado["nombreCompletoUsuario"];
 
     try{
 
@@ -49,18 +51,40 @@ export const firmaIndividualController = async (request, response) => {
             rutaArchivoP12: peticionRutaFirmas.rutaArchivoP12
         });
 
-        /* Insertar Firma en la base de datos */
-
-        /* Insertar la llave privada en la base de datos */
-
+        /* Insertar Firma, llave privada y contraseña en la base de datos */
+        await insertarFirma({
+            nombreUsuario: nombreDominioUsuario,
+            contarsenaFirma: datos.contrasena,
+            llavePrivada: peticionArchivos.llave_privada,
+            ubicacionPub: peticionRutaFirmas.rutaArchivoPub,
+            ubicacionCrt: peticionRutaFirmas.rutaArchivoCrt,
+            ubicacionP12: peticionRutaFirmas.rutaArchivoP12,
+            fechaCreacion: peticionArchivos.fecha_creacion,
+            fechaVencimiento: peticionArchivos.fecha_vencimiento,
+            tipoFirma: 1
+        });
 
         /* Enviar correo con firma anexa */
 
-
-        return response.status(200).json({
-            "Mensaje": "Firma digital creada exitosamente",
-            "Estado": true
-        });
+        /* Respuesta con la firma digital */
+        return response.sendFile(
+            peticionRutaFirmas.rutaArchivoP12, 
+            {
+                headers: {
+                    'Content-Disposition': `attachment; filename="${datos.cedula}.p12"`,
+                    'Content-Type': 'application/x-pkcs12'
+                }
+            },
+            (error) => {
+                if (error) {
+                    console.error("Error al enviar archivo:", error);
+                    return response.status(500).json({
+                        Mensaje: "Error al enviar el archivo de firma",
+                        Estado: false
+                    });
+                }
+            }
+        );
 
     } catch(error){
 

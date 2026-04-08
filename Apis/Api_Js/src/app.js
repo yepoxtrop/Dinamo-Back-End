@@ -9,6 +9,8 @@ import rutaInicioSesion from "../src/routes/inicioSesion/inicioSesion.route.js";
 //--Firmas
 import rutaFirmaIndividual from "../src/routes/firmasDigitales/firmaIndividual.route.js";
 import rutaFirmaMasiva from "../src/routes/firmasDigitales/firmaMasiva.route.js"; 
+import rutaConsultarFirma from "../src/routes/firmasDigitales/firmaIndividual.route.js";
+import rutaDescargarFirma from "../src/routes/firmasDigitales/firmaIndividual.route.js";
 // --Documentos
 import rutaFirmarDocumentos from "../src/routes/documentos/firmarDocumentos.route.js"
 import rutaValidarDocumentos from "../src/routes/documentos/validarDocumentos.route.js"
@@ -36,5 +38,6 @@ app.use("/Dinamo_Js",rutaFirmaMasiva);
 app.use("/Dinamo_Js",rutaFirmarDocumentos);
 app.use("/Dinamo_Js",rutaValidarDocumentos);
 app.use("/Dinamo_Js",rutaActualizarCorreo);
-
+app.use("/Dinamo_Js",rutaConsultarFirma);
+app.use("/Dinamo_Js",rutaDescargarFirma);
 export default app;
