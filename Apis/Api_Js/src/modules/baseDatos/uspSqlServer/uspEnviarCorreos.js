@@ -13,7 +13,7 @@ export const uspEnviarCorreos = async({cuerpoCorreo, destinatarios, tituloCorreo
                 @destinatarios = ${destinatarios}, 
                 @tituloCorrreo = ${tituloCorreo}`
         )
-        console.log(consulta)
+        
         return consulta; 
     } catch (error) {
         throw new Error("Error al ejecutar el usp:"+error.message)

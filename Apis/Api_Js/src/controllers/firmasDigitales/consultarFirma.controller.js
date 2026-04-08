@@ -42,8 +42,6 @@ export const consultarFirmaController = async (request, response) => {
         }
         
     } catch (error) {
-
-        console.log(error);
         
         response.status(500).json({
             "Mensaje": "Error al consultar la firma digital",

@@ -36,7 +36,6 @@ export const firmaMasivaController = async(request, response) =>{
                 rutaArchivoP12:peticionRutas.rutaArchivoP12
             })
 
-            console.log(peticionCreacionArchivos)
         }
 
 
@@ -44,7 +43,7 @@ export const firmaMasivaController = async(request, response) =>{
             "Mensaje":"Archivo recibido"
         }); 
     } catch (error) {
-        console.log(error);
+        
         response.status(500).json({
             "Mensaje":"Un error dentro del servidor"
         })

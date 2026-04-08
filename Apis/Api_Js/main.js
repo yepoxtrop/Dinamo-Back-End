@@ -15,7 +15,8 @@ async function main(puerto) {
             carpetasInciales();
         })
     } catch (error) {
-        console.log(`[ALERTA]:${error}`); 
+
+        throw new Error(`Error al iniciar el servidor: ${error.message}`);
     }
 }
 

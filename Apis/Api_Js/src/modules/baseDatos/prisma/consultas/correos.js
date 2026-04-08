@@ -13,8 +13,7 @@ import clientePrisma from "../../../../settings/prisma/clientePrisma.js";
  * @throws {Error} - Lanza un error si ocurre un problema durante la actualización en la base de datos.
  */
 export const actualizarCorreo = async({usuarioId, correoNuevo}) =>{
-    console.log(usuarioId, correoNuevo);
-    
+
     try{
 
         const consulta = await clientePrisma.usuarios.update({
