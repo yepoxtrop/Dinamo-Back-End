@@ -80,6 +80,7 @@ export const inicioSesionController = async (request, response) => {
                 "Token":token
             })
         }else{
+            console.log("Error de autenticacion en el dominio")
             response.status(401).json({
                 "Mensaje":"Error de autenticacion en el dominio",
             })
