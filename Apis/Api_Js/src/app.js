@@ -6,6 +6,8 @@ import cookieParser from 'cookie-parser';
 //Rutas creadas
 //--Inicio de Sesion
 import rutaInicioSesion from "../src/routes/inicioSesion/inicioSesion.route.js";
+import rutaDatosSesion from "../src/routes/inicioSesion/inicioSesion.route.js";
+
 //--Firmas
 import rutaFirmaIndividual from "../src/routes/firmasDigitales/firmaIndividual.route.js";
 import rutaFirmaMasiva from "../src/routes/firmasDigitales/firmaMasiva.route.js"; 
@@ -23,7 +25,7 @@ const app = express();
 /* Configuración de CORS */
 app.use(express.json()) 
 app.use(cors({
-  origin: '*',
+  origin: 'http://localhost:5173',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
@@ -40,4 +42,5 @@ app.use("/Dinamo_Js",rutaValidarDocumentos);
 app.use("/Dinamo_Js",rutaActualizarCorreo);
 app.use("/Dinamo_Js",rutaConsultarFirma);
 app.use("/Dinamo_Js",rutaDescargarFirma);
+app.use("/Dinamo_Js",rutaDatosSesion);
 export default app;

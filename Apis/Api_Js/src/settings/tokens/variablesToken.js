@@ -9,4 +9,4 @@ export const tokensExpiraEn = process.env.TOKENS_EXPIRA_EN || "1h"; // Por defec
 export const cookieMaxAge = parseInt(process.env.COOKIE_MAX_AGE) || 3600000; // Por defecto 1 hora en ms
 export const cookieDomain = process.env.COOKIE_DOMAIN || "";
 export const cookieSecure = process.env.COOKIE_SECURE === "true";
-export const cookieSameSite = process.env.COOKIE_SAMESITE || "Lax";
+export const cookieSameSite = process.env.COOKIE_SAMESITE || "lax";

@@ -94,7 +94,7 @@ if OBJECT_ID('sesiones') is null
 		create table sesiones (
 			sesion_id			int not null identity(1,1),
 			sesion_fecha		datetime2 not null,
-			sesion_dispositivo	varchar(50) not null,
+			sesion_dispositivo	varchar(MAX) not null,
 			usuario_id_fk		int not null,
 			constraint pk_sesion primary key(sesion_id), /* llave primaria */
 			constraint fk_usuario_en_inicio_sesion foreign key(usuario_id_fk) references usuarios(usuario_id) /* llave foranea */
