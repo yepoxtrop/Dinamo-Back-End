@@ -8,9 +8,9 @@ datasource db {
 
 model configuracion_firmas {
   configuracion_firma_id        Int            @id(map: "pk_configuracion_firma") @default(autoincrement())
-  configuracion_firma_version   String         @default("X.509", map: "DF__configura__confi__787EE5A0") @db.NVarChar(100)
+  configuracion_firma_version   String         @default("X.509", map: "DF__configura__confi__778AC167") @db.NVarChar(100)
   configuracion_firma_serie     String         @db.NVarChar(100)
-  configuracion_firma_algoritmo String         @default("rsa", map: "DF__configura__confi__797309D9") @db.NVarChar(100)
+  configuracion_firma_algoritmo String         @default("rsa", map: "DF__configura__confi__787EE5A0") @db.NVarChar(100)
   configuracion_firma_emisor    String         @db.NVarChar(300)
   configuracion_firma_cn        String         @db.NVarChar(300)
   configuracion_firma_o         String         @db.NVarChar(100)
@@ -27,7 +27,7 @@ model configuracion_firmas {
 model contrasenas_firmas {
   contrasena_firma_id    Int    @id(map: "pk_contrasena_firma") @default(autoincrement())
   contrasena_firma_valor String
-  firma_id_fk            Int    @unique(map: "UQ__contrase__2872F92CF11395AC")
+  firma_id_fk            Int    @unique(map: "UQ__contrase__2872F92C443474CD")
   firmas                 firmas @relation(fields: [firma_id_fk], references: [firma_id], onUpdate: NoAction, map: "fk_firma_en_contrasena_firma")
 }
 
@@ -68,14 +68,6 @@ model datos_certificados {
   documentos_validados                                documentos_validados @relation(fields: [documento_validado_fk], references: [documento_validado_id], onUpdate: NoAction, map: "fk_documento_validado_en_dato_certificado")
 }
 
-model documentos_firmados {
-  documento_firmado_id        Int      @id(map: "pk_archivo") @default(autoincrement())
-  documento_firmado_ubicacion String   @db.NVarChar(Max)
-  documento_firmado_fecha     DateTime
-  firma_id_fk                 Int
-  firmas                      firmas   @relation(fields: [firma_id_fk], references: [firma_id], onUpdate: NoAction, map: "fk_firma_en_archivos_firmados")
-}
-
 model documentos_validados {
   documento_validado_id              Int                   @id(map: "pk_documento_validado") @default(autoincrement())
   documento_validado_ubicacion       String                @db.NVarChar(Max)
@@ -92,26 +84,29 @@ model documentos_validados {
 
 model firmas {
   firma_id                Int                    @id(map: "pk_firma") @default(autoincrement())
-  firma_pub               String                 @db.NVarChar(Max)
-  firma_crt               String                 @db.NVarChar(Max)
+  firma_pub               String?                @db.NVarChar(Max)
+  firma_crt               String?                @db.NVarChar(Max)
   firma_p12               String                 @db.NVarChar(Max)
   firma_fecha_creacion    DateTime
   firma_fecha_vencimiento DateTime
+  firma_correo_asociado   String                 @db.NVarChar(Max)
+  firma_ubicacion         String                 @db.NVarChar(Max)
   firma_estado            Boolean
-  usuario_id_fk           Int                    @unique(map: "UQ__firmas__78A2F9EAAA25B94D")
+  usuario_id_fk           Int
   tipo_firma_id_fk        Int
   configuracion_firmas    configuracion_firmas[]
   contrasenas_firmas      contrasenas_firmas?
-  documentos_firmados     documentos_firmados[]
+  documentos_firmas       documentos_firmas[]
   tipo_firmas             tipo_firmas            @relation(fields: [tipo_firma_id_fk], references: [tipo_firma_id], onUpdate: NoAction, map: "fk_tipo_firma_en_firma")
   usuarios                usuarios               @relation(fields: [usuario_id_fk], references: [usuario_id], onUpdate: NoAction, map: "fk_usuario_en_firma")
   llaves_privadas         llaves_privadas?
+  version_firmas          version_firmas[]
 }
 
 model llaves_privadas {
   llave_id    Int    @id(map: "pk_llave") @default(autoincrement())
   llave_valor String @db.NVarChar(Max)
-  firma_id_fk Int    @unique(map: "UQ__llaves_p__2872F92CCEB25566")
+  firma_id_fk Int    @unique(map: "UQ__llaves_p__2872F92C358163C1")
   firmas      firmas @relation(fields: [firma_id_fk], references: [firma_id], onUpdate: NoAction, map: "fk_firmas_en_llave_privada")
 }
 
@@ -127,7 +122,7 @@ model peticiones_validacion {
 
 model plantillas_correos {
   plantilla_correo_id          Int                @id(map: "pk_plantilla_correo") @default(autoincrement())
-  plantilla_correo_nombre      String             @unique(map: "UQ__plantill__88EDD0D744B94930") @db.VarChar(50)
+  plantilla_correo_nombre      String             @unique(map: "UQ__plantill__88EDD0D731863D3E") @db.VarChar(50)
   plantilla_correo_descripcion String             @db.NVarChar(300)
   plantilla_correo_contenido   String             @db.NVarChar(Max)
   correos_enviados             correos_enviados[]
@@ -137,7 +132,7 @@ model reportes {
   reporte_id                Int                   @id(map: "pk_reporte") @default(autoincrement())
   reporte_ubicacion         String                @db.NVarChar(Max)
   reporte_fecha             DateTime
-  reporte_existencia        Boolean               @default(true, map: "DF__reportes__report__571DF1D5")
+  reporte_existencia        Boolean               @default(true, map: "DF__reportes__report__05D8E0BE")
   peticion_validacion_id_fk Int
   tipo_reporte_id_fk        Int
   peticiones_validacion     peticiones_validacion @relation(fields: [peticion_validacion_id_fk], references: [peticion_validacion_id], onUpdate: NoAction, map: "fk_peticion_validacion_en_reporte")
@@ -145,66 +140,152 @@ model reportes {
 }
 
 model roles {
-  rol_id          Int        @id(map: "pk_rol") @default(autoincrement())
-  rol_nombre      String     @unique(map: "UQ__roles__4900B49AB1785317") @db.VarChar(50)
-  rol_descripcion String     @db.NVarChar(300)
-  usuarios        usuarios[]
+  rol_id            Int                 @id(map: "pk_rol") @default(autoincrement())
+  rol_nombre        String              @unique(map: "UQ__roles__4900B49AD3D9F2CB") @db.VarChar(50)
+  rol_descripcion   String              @db.NVarChar(300)
+  roles_disponibles roles_disponibles[]
 }
 
 model sesiones {
-  sesion_id          Int      @id(map: "pk_sesion") @default(autoincrement())
-  sesion_fecha       DateTime
-  sesion_dispositivo String   @db.VarChar(50)
-  usuario_id_fk      Int
-  usuarios           usuarios @relation(fields: [usuario_id_fk], references: [usuario_id], onUpdate: NoAction, map: "fk_usuario_en_inicio_sesion")
+  sesion_id                  Int      @id(map: "pk_sesion") @default(autoincrement())
+  sesion_fecha               DateTime
+  sesion_dispositivo         String   @db.VarChar(Max)
+  sesion_ip                  String   @db.NVarChar(25)
+  sesion_autenticacion_token String   @db.NVarChar(25)
+  sesion_token               String   @db.NVarChar(Max)
+  usuario_id_fk              Int
+  usuarios                   usuarios @relation(fields: [usuario_id_fk], references: [usuario_id], onUpdate: NoAction, map: "fk_usuario_en_inicio_sesion")
 }
 
 model tipo_firmas {
   tipo_firma_id          Int      @id(map: "pk_tipo_firma") @default(autoincrement())
-  tipo_firma_nombre      String   @unique(map: "UQ__tipo_fir__1557963ACA26915A") @db.NVarChar(30)
+  tipo_firma_nombre      String   @unique(map: "UQ__tipo_fir__1557963A980A1E63") @db.NVarChar(30)
   tipo_firma_descripcion String   @db.NVarChar(300)
   firmas                 firmas[]
 }
 
 model tipo_reportes {
   tipo_reporte_id          Int        @id(map: "pk_tipo_reporte") @default(autoincrement())
-  tipo_reporte_nombre      String     @unique(map: "UQ__tipo_rep__910808BD62B05818") @db.VarChar(50)
+  tipo_reporte_nombre      String     @unique(map: "UQ__tipo_rep__910808BD7E2623D5") @db.VarChar(50)
   tipo_reporte_descripcion String     @db.NVarChar(300)
   reportes                 reportes[]
 }
 
 model tipos_correos {
   tipo_correo_id          Int                @id(map: "pk_tipo_correo") @default(autoincrement())
-  tipo_correo_nombre      String             @unique(map: "UQ__tipos_co__AD329B0AAA0A590C") @db.VarChar(50)
+  tipo_correo_nombre      String             @unique(map: "UQ__tipos_co__AD329B0ADA357AC1") @db.VarChar(50)
   tipo_correo_descripcion String             @db.NVarChar(300)
   correos_enviados        correos_enviados[]
 }
 
-model tokens {
-  token_id       Int      @id(map: "pk_token") @default(autoincrement())
-  token_valor    String   @db.NVarChar(2000)
-  token_duracion String   @default("1 hora", map: "DF__tokens__token_du__4CA06362") @db.VarChar(50)
-  usuario_id_fk  Int
-  usuarios       usuarios @relation(fields: [usuario_id_fk], references: [usuario_id], onUpdate: NoAction, map: "fk_usuario_en_tokens")
-}
-
 model usuarios {
-  usuario_id            Int                     @id(map: "pk_usuario") @default(autoincrement())
-  usuario_nombre        String                  @unique(map: "UQ__usuarios__220D44A281DAAC56") @db.VarChar(50)
-  usuario_nombre_real   String                  @db.NVarChar(200)
-  usuario_correo        String?                 @db.NVarChar(500)
-  rol_id_fk             Int                     @default(4, map: "DF__usuarios__rol_id__3B75D760")
-  correos_enviados      correos_enviados[]
-  firmas                firmas?
-  peticiones_validacion peticiones_validacion[]
-  sesiones              sesiones[]
-  tokens                tokens[]
-  roles                 roles                   @relation(fields: [rol_id_fk], references: [rol_id], onUpdate: NoAction, map: "fk_rol_en_usuarios")
+  usuario_id               Int                     @id(map: "pk_usuario") @default(autoincrement())
+  usuario_nombre           String                  @unique(map: "UQ__usuarios__220D44A2CDF6011A") @db.NVarChar(50)
+  usuario_nombre_real      String                  @db.NVarChar(200)
+  usuario_documento        BigInt                  @unique(map: "UQ__usuarios__A009CC114BF8B999")
+  usuario_email            String                  @unique(map: "UQ__usuarios__1C1E91042D69214A") @db.NVarChar(500)
+  usuario_email_secundario String                  @db.NVarChar(Max)
+  usuario_pais             String                  @db.NVarChar(100)
+  usuario_habilitado       Boolean
+  usuario_estado           Boolean
+  medio_creacion_id_fk     Int
+  correos_enviados         correos_enviados[]
+  firmas                   firmas[]
+  logs                     logs[]
+  peticiones_validacion    peticiones_validacion[]
+  roles_disponibles        roles_disponibles[]
+  sesiones                 sesiones[]
+  medios_creacion_usuario  medios_creacion_usuario @relation(fields: [medio_creacion_id_fk], references: [medios_creacion_id], onUpdate: NoAction, map: "fk_medio_creacion_en_usuario")
 }
 
 model version_firmas {
-  version_firma_id          Int                    @id(map: "pk_version_firma") @default(autoincrement())
-  version_firma_nombre      String                 @unique(map: "UQ__version___FD9084682F0B4A2A") @db.NVarChar(50)
-  version_firma_descripcion String                 @db.NVarChar(300)
-  configuracion_firmas      configuracion_firmas[]
+  version_firma_id     Int                    @id(map: "pk_version_firma") @default(autoincrement())
+  version_firma        String                 @db.NVarChar(100)
+  firma_id_fk          Int
+  configuracion_firmas configuracion_firmas[]
+  firmas               firmas                 @relation(fields: [firma_id_fk], references: [firma_id], onUpdate: NoAction, map: "fk_firma_en_version_firma")
+}
+
+model documentos {
+  documento_id           Int                 @id(map: "pk_documento") @default(autoincrement())
+  documento_ubicacion    String              @db.NVarChar(Max)
+  documento_estado       Boolean
+  documento_fecha        DateTime
+  documento_token_acceso String?             @db.NVarChar(Max)
+  documento_permiso      Boolean
+  tipo_documento_id_fk   Int
+  estado_documento_id_fk Int
+  estado_documentos      estado_documentos   @relation(fields: [estado_documento_id_fk], references: [estado_documento_id], onUpdate: NoAction, map: "fk_estado_documento_en_documento")
+  tipo_documentos        tipo_documentos     @relation(fields: [tipo_documento_id_fk], references: [tipo_documento_id], onUpdate: NoAction, map: "fk_tipo_documento_en_documento")
+  documentos_firmas      documentos_firmas[]
+}
+
+model documentos_firmas {
+  documento_firma_id    Int        @id(map: "pk_documento_firma") @default(autoincrement())
+  documento_firma_fecha DateTime
+  firma_id_fk           Int
+  documento_id_fk       Int
+  documentos            documentos @relation(fields: [documento_id_fk], references: [documento_id], onUpdate: NoAction, map: "fk_documento_en_documento_firma")
+  firmas                firmas     @relation(fields: [firma_id_fk], references: [firma_id], onUpdate: NoAction, map: "fk_firma_en_documento_firma")
+}
+
+model estado_documentos {
+  estado_documento_id          Int          @id(map: "pk_estado_documento") @default(autoincrement())
+  estado_documento             String       @db.NVarChar(30)
+  estado_documento_descripcion String       @db.NVarChar(Max)
+  documentos                   documentos[]
+}
+
+model logs {
+  log_id                   Int        @id(map: "pk_log") @default(autoincrement())
+  log_titulo               String     @db.NVarChar(30)
+  log_descripcion_base     String     @db.NVarChar(Max)
+  log_descripcion_completa String     @db.NVarChar(Max)
+  log_fecha                DateTime
+  log_usuario_bd           String     @db.NVarChar(Max)
+  log_ip_peticion          String     @db.NVarChar(30)
+  log_dispositivo_peticion String     @db.NVarChar(100)
+  log_tipo_id_fk           Int
+  usuario_id_fk            Int?
+  tipos_logs               tipos_logs @relation(fields: [log_tipo_id_fk], references: [tipo_log_id], onUpdate: NoAction, map: "fk_tipo_log_en_log")
+  usuarios                 usuarios?  @relation(fields: [usuario_id_fk], references: [usuario_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_usuario_en_log")
+}
+
+model medios_creacion_usuario {
+  medios_creacion_id          Int        @id(map: "pk_medios_creacion") @default(autoincrement())
+  medios_creacion             String     @unique(map: "UQ__medios_c__C3F27786203EC04C") @db.VarChar(50)
+  medios_creacion_descripcion String     @db.NVarChar(300)
+  usuarios                    usuarios[]
+}
+
+model roles_disponibles {
+  rol_disponible_id Int      @id(map: "pk_rol_disponible") @default(autoincrement())
+  usuario_id_fk     Int
+  rol_id_fk         Int
+  roles             roles    @relation(fields: [rol_id_fk], references: [rol_id], onUpdate: NoAction, map: "fk_rol_en_rol_disponible")
+  usuarios          usuarios @relation(fields: [usuario_id_fk], references: [usuario_id], onUpdate: NoAction, map: "fk_usuario_en_rol_disponible")
+}
+
+model sysdiagrams {
+  name         String @db.NVarChar(128)
+  principal_id Int
+  diagram_id   Int    @id(map: "PK__sysdiagr__C2B05B611DFA82E3") @default(autoincrement())
+  version      Int?
+  definition   Bytes?
+
+  @@unique([principal_id, name], map: "UK_principal_name")
+}
+
+model tipo_documentos {
+  tipo_documento_id          Int          @id(map: "pk_tipo_documento") @default(autoincrement())
+  tipo_documento             String       @db.NVarChar(30)
+  tipo_documento_descripcion String       @db.NVarChar(Max)
+  documentos                 documentos[]
+}
+
+model tipos_logs {
+  tipo_log_id          Int    @id(map: "pk_tipo_log") @default(autoincrement())
+  tipo_log_nombre      String @db.NVarChar(30)
+  tipo_log_descripcion String @db.NVarChar(Max)
+  logs                 logs[]
 }
