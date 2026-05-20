@@ -7,7 +7,7 @@ import cookieParser from 'cookie-parser';
 //--Inicio de Sesion
 import rutaInicioSesion from "../src/routes/inicioSesion/inicioSesion.route.js";
 import rutaDatosSesion from "../src/routes/inicioSesion/inicioSesion.route.js";
-
+import rutaCrearUsuarioManual from "../src/routes/usuarios/crearUsuario.route.js";
 //--Firmas
 import rutaFirmaIndividual from "../src/routes/firmasDigitales/firmaIndividual.route.js";
 import rutaFirmaMasiva from "../src/routes/firmasDigitales/firmaMasiva.route.js"; 
@@ -31,9 +31,10 @@ app.use(cors({
 }));
 
 app.use(cookieParser()); 
-
+app.set('trust proxy', true);
 
 /* rRutas */
+app.use("/Dinamo_Js",rutaCrearUsuarioManual);
 app.use("/Dinamo_Js",rutaInicioSesion);
 app.use("/Dinamo_Js",rutaFirmaIndividual);
 app.use("/Dinamo_Js",rutaFirmaMasiva);
@@ -43,4 +44,5 @@ app.use("/Dinamo_Js",rutaActualizarCorreo);
 app.use("/Dinamo_Js",rutaConsultarFirma);
 app.use("/Dinamo_Js",rutaDescargarFirma);
 app.use("/Dinamo_Js",rutaDatosSesion);
+
 export default app;

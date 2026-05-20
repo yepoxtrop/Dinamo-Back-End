@@ -76,6 +76,7 @@ export const firmaIndividualController = async (request, response) => {
                 }
             },
             (error) => {
+                console.log(error);
                 if (error) {
                     console.error("Error al enviar archivo:", error);
                     return response.status(500).json({
@@ -87,7 +88,7 @@ export const firmaIndividualController = async (request, response) => {
         );
 
     } catch(error){
-
+        console.log(error);
         return response.status(500).json({
             "Mensaje": "Error al crear la firma digital",
             "Estado": false

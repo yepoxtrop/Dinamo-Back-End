@@ -181,14 +181,15 @@ model tipos_correos {
 model usuarios {
   usuario_id               Int                     @id(map: "pk_usuario") @default(autoincrement())
   usuario_nombre           String                  @unique(map: "UQ__usuarios__220D44A2CDF6011A") @db.NVarChar(50)
-  usuario_nombre_real      String                  @db.NVarChar(200)
-  usuario_documento        BigInt                  @unique(map: "UQ__usuarios__A009CC114BF8B999")
+  usuario_nombre_real      String?                 @db.NVarChar(200)
+  usuario_documento        BigInt?                 @unique(map: "UQ__usuarios__A009CC114BF8B999")
   usuario_email            String                  @unique(map: "UQ__usuarios__1C1E91042D69214A") @db.NVarChar(500)
-  usuario_email_secundario String                  @db.NVarChar(Max)
+  usuario_email_secundario String?                 @db.NVarChar(Max)
   usuario_pais             String                  @db.NVarChar(100)
   usuario_habilitado       Boolean
   usuario_estado           Boolean
   medio_creacion_id_fk     Int
+  usuario_contrasena       String                  @db.NVarChar(Max)
   correos_enviados         correos_enviados[]
   firmas                   firmas[]
   logs                     logs[]
