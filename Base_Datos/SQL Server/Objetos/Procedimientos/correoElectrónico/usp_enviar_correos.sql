@@ -10,7 +10,7 @@ MODIFICACION      : Se modifica el sp para que envie unicamente correos, el sp r
 ========================================================================================================================*/
 
 /* Usar la base de datos */
-use Dinamo;
+use [Dinamo_Firmas_Digitales];
 go
 
 /* Crear o modificar sp */
@@ -24,21 +24,32 @@ as
 	begin
         begin try
             /* Enviar correo de bienvenida */
+
+            if @rutaArchivos is not null
             
-            exec msdb.dbo.sp_send_dbmail
-                @profile_name = @perfilCorreo,
-	            @recipients = @destinatarios,
-	            @subject = @tituloCorrreo,
-                @file_attachments = @rutaArchivos,
-	            @body = @cuerpoCorreo,
-	            @body_format = 'HTML'
+                exec msdb.dbo.sp_send_dbmail
+                    @profile_name = @perfilCorreo,
+	                @recipients = @destinatarios,
+	                @subject = @tituloCorrreo,
+                    @file_attachments = @rutaArchivos,
+	                @body = @cuerpoCorreo,
+	                @body_format = 'HTML'
+            else
+                exec msdb.dbo.sp_send_dbmail
+                    @profile_name = @perfilCorreo,
+	                @recipients = @destinatarios,
+	                @subject = @tituloCorrreo,
+                    @body = @cuerpoCorreo,
+	                @body_format = 'HTML'
                 
                   
             /* Resultados */
 	        select 'Correo Enviado Exitosamente';
         end try
         begin catch
-            select @@ERROR;
+            declare @numeroError int = ERROR_NUMBER();
+		    declare @mensajeError nvarchar(4000) = ERROR_MESSAGE();
+            
             throw 50001, 'Error Al Enviar El Correo', 1;
         end catch
             

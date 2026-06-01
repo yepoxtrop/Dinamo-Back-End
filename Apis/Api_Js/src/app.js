@@ -8,6 +8,9 @@ import cookieParser from 'cookie-parser';
 import rutaInicioSesion from "../src/routes/inicioSesion/inicioSesion.route.js";
 import rutaDatosSesion from "../src/routes/inicioSesion/inicioSesion.route.js";
 import rutaCrearUsuarioManual from "../src/routes/usuarios/crearUsuario.route.js";
+import rutaCrearNuevoTokenAuth from "../src/routes/usuarios/crearUsuario.route.js";
+import rutaCompararTokenAuth from "../src/routes/usuarios/crearUsuario.route.js";
+
 //--Firmas
 import rutaFirmaIndividual from "../src/routes/firmasDigitales/firmaIndividual.route.js";
 import rutaFirmaMasiva from "../src/routes/firmasDigitales/firmaMasiva.route.js"; 
@@ -35,6 +38,9 @@ app.set('trust proxy', true);
 
 /* rRutas */
 app.use("/Dinamo_Js",rutaCrearUsuarioManual);
+app.use("/Dinamo_Js",rutaCrearNuevoTokenAuth);
+app.use("/Dinamo_Js",rutaCompararTokenAuth);
+
 app.use("/Dinamo_Js",rutaInicioSesion);
 app.use("/Dinamo_Js",rutaFirmaIndividual);
 app.use("/Dinamo_Js",rutaFirmaMasiva);
