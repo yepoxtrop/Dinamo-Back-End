@@ -19,6 +19,8 @@ export const buscarFirmas = async ({ nombre_usuario, cedula }) => {
     const rutaArchivoP12 = path.join(rutaCarpeta, `${cedula}.p12`);
 
     try {
+
+        
         const stats = await fs.stat(rutaCarpeta);
 
         if (stats.isDirectory()) {

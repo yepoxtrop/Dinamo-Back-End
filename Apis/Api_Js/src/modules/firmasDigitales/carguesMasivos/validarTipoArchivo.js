@@ -8,7 +8,7 @@ import { archivosTXT } from "./archivosTXT.js";
 export const validarTipoArchivo = async ({rutaArchivo}) => {
     try {
         const consultaTipoArchivo = await mime.lookup(rutaArchivo);
-        console.log(consultaTipoArchivo);
+
         if (consultaTipoArchivo === "text/plain"){
             let peticionTXT = await archivosTXT({pathArchivo:rutaArchivo})
             return peticionTXT; 

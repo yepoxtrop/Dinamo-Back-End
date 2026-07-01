@@ -147,7 +147,11 @@ export const creacionArchivosFirmas = async ({nombre_usuario, contrasena, rutaAr
             Buffer.from(firmaP12, 'binary')
         );        
 
-        return clavePrivadaPem;
+        return {
+            "llave_privada" : clavePrivadaPem,
+            "fecha_creacion" : certificado.validity.notBefore,
+            "fecha_vencimiento" : certificado.validity.notAfter
+        };
     } catch (error) {
        return error; 
     }

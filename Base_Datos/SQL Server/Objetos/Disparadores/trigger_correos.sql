@@ -7,6 +7,10 @@ AUTOR MODIFICACION: LUIS ANGEL SARMIENTO DIAZ
 MODIFICACION      : Se modifican los comentarios de restricciones
 ========================================================================================================================*/
 
+/* Usar base */
+use Dinamo;
+go
+
 /*
 DISPARADOR:		usp_insertar_peticiones
 DESCRIPCION:	Se encarga de insertar la petición más reciente y capturar su id
