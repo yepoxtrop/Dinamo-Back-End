@@ -10,7 +10,7 @@ MODIFICACION      : Se modifica el sp para que envie unicamente correos, el sp r
 ========================================================================================================================*/
 
 /* Usar la base de datos */
-use [Dinamo_Firmas_Digitales];
+use [Dinamo];
 go
 
 /* Crear o modificar sp */

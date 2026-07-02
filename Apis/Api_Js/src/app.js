@@ -36,7 +36,7 @@ app.use(cors({
 app.use(cookieParser()); 
 app.set('trust proxy', true);
 
-/* rRutas */
+/* Rutas */
 app.use("/Dinamo_Js",rutaCrearUsuarioManual);
 app.use("/Dinamo_Js",rutaCrearNuevoTokenAuth);
 app.use("/Dinamo_Js",rutaCompararTokenAuth);

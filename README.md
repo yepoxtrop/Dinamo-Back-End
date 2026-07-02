@@ -1,129 +1,57 @@
-# ✒️ Dinamo — Plataforma de Firmas Digitales
+# Dinamo - Firmas Digitales
 
-**Dinamo** es una plataforma segura e intuitiva que permite a empresas y usuarios gestionar, analizar y validar firmas digitales en documentos PDF desde cualquier lugar. Su propósito es agilizar procesos, reducir costos operativos y garantizar la validez legal de las transacciones digitales.
+Dinamo es una aplicacion de firmas digitales que busca reducir el uso de papel y asegurar la integridad de los datos del firmante.
+Nace como un proyecto empresarial básico para la generación de certificados digitales, pero he decidio convertirlo en un proyecto más ambicioso.
+Dianmo se divide en dos partes:
+
+- <a href="https://github.com/yepoxtrop/Dinamo-Back-End">Api - BackEnd</a> - Servicio de Api Rest con Javascript
+- <a href="https://github.com/yepoxtrop/Dinamo-Front-End">UI - FrontEnd</a> - Interfaz gráfica con React JS
+
+# Dinamo BacKend
+
+Este es el repositorio oficial del API de Dinamo, el API se encarga de gestionar tareas fundamentales para el firmado de documentos digitales, como pueden ser:
+
+- Modulo de usuarios
+  - [ ] Autenticación de usuarios con active directory corporativo
+  - [ ] Personalización de perfl dentro de dinamo
+  - [ ] Gestion de sesiones con JWT y cookies
+- Modulo de firmas digitales
+  - [ ] Creación de certificados digitales autofirmados y firmas **.p12**
+  - [ ] Aceptar el cargue de analisis de firmas externas para firmar documentos
+- Modulo de analisis de documentos
+  - [ ] Analizar documentos pdf con un máximo de 12 archivos
+  - [ ] Generar reportes de los archivos cargados, siendo en formato xlsx, csv o txt
+- Modulo de integridad de datos
+  - [ ] Integración de base de datos multicliente con prisma como ORM para varios SGBD, existen procedimientos, vistas y disparadores, pero el SGBD en el que esta basado es **SQL SERVER**.
+
+La versión que encontrará aqui (en la rama **devLuis**) es la más reciente en desarrollo, la versión más estable la encuentra en la rama **main**.
+
+## Estructura
+
+El backend de Dinamo cuenta con la siguiente estructura en la distribucion delproyecto:
+
+```
+DINAMO-BACK-END          #Directorio principal del backend de Dinamo
+├───Apis                 #Todos los serivcios relacionados con el API de Dinamo
+│   ├───Api_Js           #APi escrita en JS
+│   ├───java-maker-pdf   #Paquete de JAVA para manipular PDFS
+│   └───java-signer      #Paquete de JAVA para manipular PDFS
+├───Aplicaciones_Extra   #Aplicaciones extras para hacer pruebas
+└───Base_Datos           #Versiones de la base de datos para SGBD
+    ├───MySQL            #Version de MYSQL
+    └───SQL Server       #Version para SQLSERVER (Más actualizada)
+```
+
+**NOTA: Tenga en cuenta que cada carpeta importante tendra su propio** `README.MD` **Con el fn de documentar a mas detalle cada modulo**
+
+## Versiones
+
+La version principal de Dinamo es de un aplicativo completo incluyendo su `Login` y `Register` por vía de correos electrónicos o por las pasarelas ofrecidas por plataformas como `Google`, `Outlook` o `Github`, sin embargo, Dinammo ofrece su versión enfocada al logueo por `Active Directory`, más adelente exploraremos los datalles y particularidades de cada versión.
+
+## Novedades
+
+- Dinamo sigue en su versión beta
 
 ---
 
-## 🔑 Características Principales
-
-| Característica | Descripción |
-|---|---|
-| 🔐 **Autenticación segura** | Certificados digitales y protocolos de cifrado para verificar la identidad del firmante |
-| 🖥️ **Multiplataforma** | Acceso desde navegadores web en computadoras y tablets |
-| 📄 **Gestión de documentos** | Carga, analiza y valida el contenido de PDFs y el estado de sus firmas |
-| ⚖️ **Validez legal** | Cumplimiento con normativas internacionales (eIDAS, ESIGN) y leyes locales de firma electrónica |
-| 🗂️ **Auditoría completa** | Registro detallado de cada acción: quién firmó, cuándo y desde dónde |
-
----
-
-## 🎯 Beneficios
-
-- ⚡ **Rapidez** — Elimina la necesidad de imprimir, escanear o enviar documentos físicos.
-- 💰 **Ahorro** — Reduce costos de papel, mensajería y almacenamiento físico.
-- 🛡️ **Seguridad** — Protege la integridad y confidencialidad de la información.
-- 🌍 **Accesibilidad** — Firma documentos en cualquier momento y lugar.
-- 🌱 **Sostenibilidad** — Contribuye a la reducción del uso de papel.
-
----
-
-## 🤖 Documentación Técnica
-
-Esta sección describe el funcionamiento interno del proyecto para desarrolladores y colaboradores.
-
-### 💼 Estructura del Proyecto
-
-El proyecto se organiza en tres carpetas principales:
-```
-dinamo/
-├── firmas-digitales-back/       # Lógica del servidor y servicios
-│   ├── Apis/                    # Endpoints y controladores de la API REST
-│   │   ├── Api_Js/              # 
-│   │   └── java-signer/         # 
-│   ├── Aplicaciones_Extra/      # Módulos y utilidades auxiliares
-│   │   └── Dinamo_Tokens/       # Archivo .exe para generar tokens de prueba
-│   └── Base_Datos/              # Modelos, migraciones y configuración de BD
-│       ├── MYSQL/               # Modelo de la base de datos en mysql
-│       └── SQL SERVER/          # Modelo de la base de datos en sql server
-│
-└── firmas-digitales-front/      # Interfaz de usuario (cliente)
-```
-
-### ⚙️ Requisitos Previos
-
-> *(Agrega aquí la versión de Node.js, dependencias principales, variables de entorno necesarias, etc.)*
-
-### 🚀 Instalación y Uso
-```bash
-# Clonar el repositorio
-git clone https://github.com/DesarrolloAciel/Firmas-Digitales-Back.git
-
-# Instalar dependencias
-cd Apis/Api_Js
-npm install
-```
-
-```env
-#Configurar las variables de entorno en Apis/Api_Js/.env
-
-#Variable Para Arrancar La Aplicación
-PUERTO=
- 
-#Variables Para Correos(Si usa una libreria como nodemailer)
-CORREO_HOST="" 
-CORREO_PUERTO=
-CORREO_SEGURIDAD=
-CORREO_USUARIO=""
-CORREO_CONTRASENA=""
-
-#Llaves Para El JWT
-TOKENS_LLAVE_PRIVADA=""
-TOKENS_ALGORITMO=""
- 
-#Variables Del Dominio
-DOMINIO=""
-DOMINIO_URL=""
-DOMINIO_BASE_DN=""
-DOMINIO_USUARIO_PRUEBA=""
-DOMINIO_CONTRASENA_USUARIO_PRUEBA=""
-DOMINIO_FILTRO_BUSQUEDA=""
-DOMINIO_ATRIBUTOS=""
-DOMINIO_PUERTO=389
-DOMINIO_GRUPOS_EXCLUIDOS=""
- 
-#Variables para Base de datos
-DATABASE_URL="" #Exclusiva en caso de que use prisma
-DB_USER=""
-DB_PASSWORD=""
-DB_NAME=""
-DB_HOST=""
-```
-
-```bash
-# Arrancar la aplicacion
-npm run dev
-```
-
-> *Pasos Siguientes*
-
-## 📘 Documentación interna
-
-Cada carpeta bajo `Apis/Api_Js/src` contiene su propio `README.md` con información
-específica sobre los módulos, controladores y utilidades. Consulta esos archivos para
-obtener detalles técnicos, ejemplos de uso y flujos de datos dentro del servidor.
-
-- `controllers/` – lista de controladores y middlewares.
-- `modules/` – descripción de cada módulo de negocio.
-- `modules/firmasDigitales`, `analizarDocumentosPDF`, `dominio`, `documentos/reportes` etc.
-
-Esta documentación complementa la visión general ofrecida en este README.
-
-
----
-
-## 📄 Licencia
-
-*Neo*
-
----
-
-<p align="center">Desarrollado con ❤️ por el equipo de ACS</p>
+<p align="center">🦝 Yepoxtrop</p>

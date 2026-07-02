@@ -11,17 +11,17 @@
 /* 
 =======================================================================
 	BASE: Dinamo
-	EMERGENCIA: use master; drop database Dinamo_Firmas_Digitales;
+	EMERGENCIA: use master; drop database Dinamo;
 =======================================================================
 */
-if DB_ID('Dinamo_Firmas_Digitales') is null
+if DB_ID('Dinamo') is null
 	begin
-		create database Dinamo_Firmas_Digitales;
-		print('Base de datos Dinamo_Firmas_Digitales creada');
+		create database Dinamo;
+		print('Base de datos Dinamo creada');
 	end
 go
 
-use Dinamo_Firmas_Digitales;
+use Dinamo;
 go
 
 /* 

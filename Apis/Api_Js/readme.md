@@ -1,203 +1,85 @@
-# API de Firmas Digitales (JavaScript)
+# API JAVASCRIPT
+Este servicio es el órgano principal de Dinamo, al igual que la base de datos, las aplicaciones extras y las otras implementaciones de las cuales hace uso el software, la más importante es el `Api_Js`, dicha api hace uso de diferente módulos externos (más tarde serán tratados, por el momento no), y cuenta con una arquitectura modular que busca tener todo organizado.
 
-Esta API RESTful desarrollada en Node.js se encarga de gestionar las principales funcionalidades del sistema de firmas digitales, incluyendo autenticación de usuarios, manejo de documentos PDF, validación de firmas electrónicas, y generación de reportes.
+Esta api es la encargada de:
+- Comunicarse con la base datos y realizar transacciones con los datos proporcionados con los usuarios.
+- Recibir y analizar archivos `*.pdf` para generar reportes en formatos `*.csv`, `*.xlsx` o `.txt`.
+- Enviar correos según las tareas realizadas.
+- Crear firmas digitales y certificados autofirmados
+- Almacenar firmas externas y firmar con ellas
+- Compartir documentos con diferentes usuarios para ser editados o firmados
+- Editar documentos pdf
+- Crear flujos de trabajo para la edicion de documentos pdf
+- Crea los JWT y cookies para su autenticación 
 
-## 🚀 Características
-
-- **Autenticación JWT**: Sistema seguro de autenticación con tokens JWT
-- **Gestión de Documentos**: Carga, firma y validación de documentos PDF
-- **Firmas Digitales**: Soporte para firmas individuales y masivas
-- **Validación de Certificados**: Verificación de certificados digitales y estados de vigencia
-- **Reportes XLSX**: Generación de reportes detallados en Excel sobre firmas y documentos
-- **Integración LDAP**: Autenticación contra directorios activos
-- **Base de Datos**: Soporte para MySQL y SQL Server mediante Prisma ORM
-- **Envío de Correos**: Notificaciones automáticas por email
-
-## 🛠️ Tecnologías Utilizadas
-
-- **Runtime**: Node.js con ES6 Modules
-- **Framework**: Express.js
-- **Base de Datos**: Prisma ORM (MySQL/SQL Server)
-- **Autenticación**: JSON Web Tokens (JWT)
-- **Criptografía**: Node-forge, PKI.js
-- **Documentos**: PDF-lib, SignPDF
-- **Reportes**: ExcelJS
-- **Correos**: Nodemailer
-- **LDAP**: LDAPTS
-
-## 📦 Instalación
-
-### Prerrequisitos
-
-- Node.js (versión 16 o superior)
-- npm o yarn
-- Base de datos MySQL o SQL Server
-
-### Pasos de Instalación
-
-1. **Clonar el repositorio**
-   ```bash
-   git clone <url-del-repositorio>
-   cd firmas-digitales-back/Apis/Api_Js
-   ```
-
-2. **Instalar dependencias**
-   ```bash
-   npm install
-   ```
-
-3. **Configurar variables de entorno**
-   Crear un archivo `.env` en la raíz del proyecto con las variables necesarias (ver sección Variables de Entorno)
-
-4. **Configurar base de datos**
-   ```bash
-   npx prisma migrate dev
-   npx prisma generate
-   ```
-
-5. **Iniciar el servidor**
-   ```bash
-   npm run dev
-   ```
-
-El servidor estará disponible en `http://localhost:3000` (o el puerto configurado)
-
-## 📖 Uso
-
-### Desarrollo
-```bash
-npm run dev  # Inicia el servidor con nodemon
+## Esstructura
+El Api, cuenta con la siguiente estructura:
 ```
-
-### Producción
-```bash
-node main.js
-```
-
-## 🔗 Endpoints de la API
-
-La API está disponible bajo el prefijo `/Dinamo_Js`. Todos los endpoints requieren autenticación JWT excepto el login.
-
-### Autenticación
-- `POST /Dinamo_Js/login` - Inicio de sesión
-
-### Firmas Digitales
-- `POST /Dinamo_Js/Firma_Individual` - Firma individual de documentos
-- `POST /Dinamo_Js/Firma_Masiva` - Firma masiva de documentos
-
-### Gestión de Documentos
-- `POST /Dinamo_Js/Firmar_Documentos` - Firmar documentos PDF
-- `GET /Dinamo_Js/Documentos_Firmados` - Listar documentos firmados
-- `GET /Dinamo_Js/Documentos_Firmados/:id/descargar` - Descargar documento firmado
-- `DELETE /Dinamo_Js/Documentos_Firmados/:id` - Eliminar documento firmado
-
-### Validación
-- `POST /Dinamo_Js/Validar_Documentos` - Validar firmas de documentos
-
-## ⚙️ Variables de Entorno
-
-### Aplicación
-- `PUERTO` - Puerto del servidor (por defecto: 3000)
-
-### Correos
-- `CORREO_HOST` - Servidor SMTP
-- `CORREO_PUERTO` - Puerto SMTP
-- `CORREO_SEGURIDAD` - Tipo de seguridad (TLS/SSL)
-- `CORREO_USUARIO` - Usuario del correo
-- `CORREO_CONTRASENA` - Contraseña del correo
-
-### Base de Datos
-- `BASE_DATOS_HOSTNAME` - Host de la base de datos
-- `BASE_DATOS_PUERTO` - Puerto de la base de datos
-- `BASE_DATOS_USUARIO` - Usuario de la base de datos
-- `BASE_DATOS_CONTRASENA` - Contraseña de la base de datos
-- `BASE_DATOS_NOMBRE` - Nombre de la base de datos
-
-### JWT
-- `TOKENS_LLAVE_PRIVADA` - Clave privada para JWT
-- `TOKENS_ALGORITMO` - Algoritmo de encriptación JWT
-
-### Dominio (LDAP)
-- `DOMINIO` - URL del dominio
-- `DOMINIO_URL` - URL completa del dominio
-- `DOMINIO_BASE_DN` - Base DN del dominio
-- `DOMINIO_USUARIO_PRUEBA` - Usuario de prueba
-- `DOMINIO_CONTRASENA_USUARIO_PRUEBA` - Contraseña del usuario de prueba
-- `DOMINIO_FILTRO_BUSQUEDA` - Filtro de búsqueda LDAP
-
-## 📂 Estructura del Proyecto
+Api_Js
+├───certificates                                            #Carpeta en donde se alamcenan los certificados
+├───node_modules                                            #Modulos externos
+├───patches                                                    
+├───prisma                                                  #Carpeta relacionada con las updates de prisma
+│   └───migrations                                          #Carpeta con las migraciones de prisma
+├───reports                                                 #Carpeta donde se almacenan los reportes
+├───src                                                     #Codigo fuente
+│   ├───controllers                                         #Controladores para las rutas
+│   │   ├───datosUsuario
+│   │   ├───documentos
+│   │   ├───firmasDigitales
+│   │   └───inicioSesion
+│   ├───middlewares                                         #Middlewares para las rutas
+│   ├───modules                                             #Modulos para los controladores
+│   │   ├───apis
+│   │   ├───baseDatos
+│   │   │   ├───consultasPrisma
+│   │   │   ├───prisma
+│   │   │   │   ├───consultas
+│   │   │   │   └───procedimientos
+│   │   │   └───uspSqlServer
+│   │   ├───correo
+│   │   ├───documentos
+│   │   │   ├───analizarDocumentosPDF
+│   │   │   └───reportes
+│   │   │       ├───reportesCSV
+│   │   │       ├───reportesPDF
+│   │   │       └───reportesXLSX
+│   │   ├───dominio
+│   │   ├───firmasDigitales
+│   │   │   ├───archivos
+│   │   │   │   ├───creacion
+│   │   │   │   └───renovacion
+│   │   │   ├───carguesMasivos
+│   │   │   └───carpetas
+│   │   └───tokens
+│   │       └───auth
+│   ├───routes
+│   │   ├───datosUsuario
+│   │   ├───documentos
+│   │   ├───firmasDigitales
+│   │   ├───inicioSesion
+│   │   └───usuarios
+│   ├───settings
+│   │   ├───correo
+│   │   │   └───plantillasHTML
+│   │   ├───dominio
+│   │   ├───general
+│   │   ├───others
+│   │   │   └───plantillaCorreo
+│   │   ├───prisma
+│   │   └───tokens
+│   └───temp
+├───uploads                                                    #Cargas
+│   ├───documentosAnalizados
+│   └───signatures
+├───utils                                                #Funciones comunes
 
 ```
-firmas-digitales-back/Apis/Api_Js/
-├── src/
-│   ├── app.js                 # Configuración principal de Express
-│   ├── controllers/           # Controladores de la API
-│   │   ├── documentos/        # Gestión de documentos
-│   │   ├── firmasDigitales/   # Lógica de firmas
-│   │   ├── inicioSesion/      # Autenticación
-│   │   └── midleware*.js      # Middlewares
-│   ├── modules/               # Módulos reutilizables
-│   │   ├── baseDatos/         # Conexión a BD
-│   │   ├── correo/            # Envío de emails
-│   │   ├── documentos/        # Utilidades de documentos
-│   │   ├── firmasDigitales/   # Utilidades de firmas
-│   │   └── tokens/            # Gestión de JWT
-│   ├── routes/                # Definición de rutas
-│   │   ├── documentos/        # Rutas de documentos
-│   │   ├── firmasDigitales/   # Rutas de firmas
-│   │   └── inicioSesion/      # Rutas de auth
-│   └── settings/              # Configuraciones
-│       ├── correo/            # Config email
-│       ├── dominio/           # Config LDAP
-│       ├── general/           # Variables generales
-│       ├── prisma/            # Config BD
-│       └── tokens/            # Config JWT
-├── prisma/                    # Configuración de Prisma
-│   ├── schema.prisma          # Esquema de BD
-│   └── migrations/            # Migraciones
-├── uploads/                   # Archivos subidos
-├── temp/                      # Archivos temporales
-├── utils/                     # Utilidades
-├── main.js                    # Punto de entrada
-├── package.json               # Dependencias
-└── README.md                  # Este archivo
-```
+**NOTA: Si alguna de las carpetas no aparecen cuando clone el repositorio, tenga en cuenta que unas de ellas se van a crear automaticamente cuando inicie la aplicación en su servidor o en su equipo**
 
-## 📋 Pendientes
-
-- [ ] Implementar sistema de cookies
-- [ ] Desarrollar middlewares adicionales
-- [ ] Integrar modelos con Prisma
-- [ ] Optimizar validación de firmas de documentos
-
-## 🤝 Contribución
-
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
-3. Commit tus cambios (`git commit -am 'Agrega nueva funcionalidad'`)
-4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
-5. Abre un Pull Request
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia ISC.
-
-## 👤 Autor
-
-**Luis Angel Sarmiento Diaz**
-- Email: sarmientodiazluisangel@gmail.com
-- LinkedIn: [Tu perfil]
+## Novedades
+El API continua en desarrollo para mejorar su eficiencia
+<img src="https://i.pinimg.com/736x/1d/fc/08/1dfc08fe9cf70882e98d4be7bc798ab0.jpg" />
 
 ---
-
-*Desarrollado con ❤️ para ACS - Aciel Soluciones Integrales S.A.S*
-- `DOMINIO_ATRIBUTOS`
-- `DOMINIO_PUERTO`
-- `DOMINIO_GRUPOS_EXCLUIDOS`
-
----
-
-## 🚀 Cómo iniciar
-1. Clonar el repositorio:
-   ```bash
-   git clone <url-del-repo>
+<p align="center">🦝 Yepoxtrop</p>
