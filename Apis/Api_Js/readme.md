@@ -69,7 +69,7 @@ Api_Js
 │   │   ├───prisma
 │   │   └───tokens
 │   └───temp
-├───uploads                                              #Cargas
+├───uploads                                                    #Cargas
 │   ├───documentosAnalizados
 │   └───signatures
 ├───utils                                                #Funciones comunes
