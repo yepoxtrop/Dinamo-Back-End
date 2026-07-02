@@ -5,7 +5,7 @@ DETALLE       : Procedimiento que crea usuario usuario base al crear un nuevo us
 ========================================================================================================================*/
 
 /* Usar la base de datos */
-use Dinamo_Firmas_Digitales;
+use Dinamo;
 go
 
 create or alter procedure usp_crear_usuario_base
@@ -63,9 +63,9 @@ begin
 			) values(
 				@fecha,
 				@correo,
-				1, /* Id de creación de cuenta */
+				1, /* Id de creaciï¿½n de cuenta */
 				@idUsuario,
-				4 /* Id de la plantilla de creación de cuenta  */
+				4 /* Id de la plantilla de creaciï¿½n de cuenta  */
 			)
 
 			/* Almacenar log */

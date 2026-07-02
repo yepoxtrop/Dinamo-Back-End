@@ -13,7 +13,7 @@ go
 
 /*
 PROCEDIMIENTO:	usp_insertar_peticiones
-DESCRIPCION:	Se encarga de insertar la petición más reciente y capturar su id
+DESCRIPCION:	Se encarga de insertar la peticiï¿½n mï¿½s reciente y capturar su id
 RESULTADO:		Se retorna el id de la peticion
 VARIABLES DE ENTRADA:	-idUsuario:id del usuario que carga la peticion
 						-peticionFecha:fecha en la que s ecarga la peticion
@@ -45,7 +45,7 @@ go
 
 /*
 PROCEDIMIENTO:	usp_insertar_documentos
-DESCRIPCION:	Se encarga de insertar la petición más reciente y capturar su id
+DESCRIPCION:	Se encarga de insertar la peticiï¿½n mï¿½s reciente y capturar su id
 VARIABLES DE ENTRADA:	-idPeticion:
 						-documentoNombre:
 						-documentoUbicacion:
@@ -100,7 +100,7 @@ go
 
 /*
 PROCEDIMIENTO:	usp_insertar_certficiados
-DESCRIPCION:	Se encarga de insertar la petición más reciente y capturar su id
+DESCRIPCION:	Se encarga de insertar la peticiï¿½n mï¿½s reciente y capturar su id
 VARIABLES DE ENTRADA:	-@idDocumento			
 						-@certificadoNumero							
 						-@certificadoVersion				
@@ -197,7 +197,7 @@ go
 
 /*
 PROCEDIMIENTO:	usp_generar_reporte_basico
-DESCRIPCION:	Se encarga de insertar la petición más reciente y capturar su id
+DESCRIPCION:	Se encarga de insertar la peticiï¿½n mï¿½s reciente y capturar su id
 VARIABLES DE ENTRADA:	-idPeticion:
 						-idUsuario:
 */
@@ -216,7 +216,7 @@ go
 
 /*
 PROCEDIMIENTO:	usp_generar_reporte_medio
-DESCRIPCION:	Se encarga de insertar la petición más reciente y capturar su id
+DESCRIPCION:	Se encarga de insertar la peticiï¿½n mï¿½s reciente y capturar su id
 VARIABLES DE ENTRADA:	-idPeticion:
 						-idUsuario:
 */
@@ -235,7 +235,7 @@ go
 
 /*
 PROCEDIMIENTO:	usp_generar_reporte_completo
-DESCRIPCION:	Se encarga de insertar la petición más reciente y capturar su id
+DESCRIPCION:	Se encarga de insertar la peticiï¿½n mï¿½s reciente y capturar su id
 VARIABLES DE ENTRADA:	-idPeticion:
 						-idUsuario:
 */
@@ -254,7 +254,7 @@ go
 
 /*
 PROCEDIMIENTO:	usp_insertar_reportes
-DESCRIPCION:	Se encarga de insertar la petición más reciente y capturar su id
+DESCRIPCION:	Se encarga de insertar la peticiï¿½n mï¿½s reciente y capturar su id
 VARIABLES DE ENTRADA:	-idPeticion:
 						-idUsuario:
 */
@@ -273,62 +273,3 @@ begin
 	values(@ubicacionReporte, @fechaReporte, @idPeticion, @tipoReporte);
 end
 go
-
-
-
-
-/* PRUEBAS DE UPS
-
-exec [dbo].[usp_insertar_peticiones] 
-@idUsuario = 1,
-@peticionFecha = '2026-03-19 00:00:00.0000000',
-@peticionNombre = 'PeticionXXXXXXXXXX';
-go
-
-exec [dbo].[usp_insertar_documentos]
-@idPeticion = 1,
-@documentoNombre = 'CHIMBORAZO_1817_INF1.pdf',
-@documentoUbicacion = './CHIMBORAZO_1817_INF1.pdf',
-@documentoEstado = 1,
-@documentoCausaEstado = 'Todas las firmas son válidas',
-@documentoTotalFirmas = 1,
-@documentoFirmasVencidas = 0,
-@documentoTipo = 'PDF';
-go
-
-exec [dbo].[usp_insertar_certficiados]
-@idDocumento = 58,
-@certificadoNumero = 2,
-@certificadoVersion	= '2',
-@certificadoSerial = '169a6dc3', 
-@certificadoOid	= '1.2.840.113549.1.1.11', 
-@certificadoCreacion = '2024-1-29', 
-@certificadoVencimiento	= '2026-1-28', 
-@certificadoEstado	= 1, 
-@certificadoEditor	= 'countryName=EC|organizationName=SECURITY DATA S.A. 2|organizationalUnitName=ENTIDAD DE CERTIFICACION DE INFORMACION|commonName=AUTORIDAD DE CERTIFICACION SUBCA-2 SECURITY DATA|', 
-@certificadoSujeto	= 'commonName=ANDRES ALEXANDER LOPEZ MORAN|serialNumber=0923994792-290124192001|organizationalUnitName=ENTIDAD DE CERTIFICACION DE INFORMACION|', 
-@certificadoCausaEstado	= 'La firma es válida, pero tenga en cuenta: Se venció por caducidad.', 
-@certificadoUso	= '2025-08-15', 
-@certificadoValidacionVencimientoEstado	= 0, 
-@certificadoValidacionVencimientoDescripcion = 'Se venció por caducidad.', 
-@certificadoValidacionUsoEstado				 = 1, 
-@certificadoValidacionUsoDescripcion		 = 'La firma se usó estando vigente.', 
-@certificadoValidacionHashEstado			 = 1, 
-@certificadoValidacionHashDescripcion		 = 'Válido en términos de permisos', 
-@certificadoValidacionIntegridadEstado		 = 1, 
-@certificadoValidacionIntegridadDescripcion = 'Certificado funciona con cadena de seguridad';
-
-exec [dbo].[usp_generar_reporte_basico]
-@idPeticion	=1,
-@idUsuario	=1
-
-exec [dbo].[usp_generar_reporte_medio]
-@idPeticion	=1,
-@idUsuario	=1
-
-
-exec [dbo].[usp_generar_reporte_completo]
-@idPeticion	=14,
-@idUsuario	=2
-
-*/
