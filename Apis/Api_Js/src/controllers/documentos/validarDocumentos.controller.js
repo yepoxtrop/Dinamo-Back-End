@@ -3,8 +3,8 @@ import { analizarDocumentoPDF } from "../../modules/documentos/analizarDocumento
 import { reporteDetalladoCSV } from "../../modules/documentos/reportes/reportesCSV/reporteDetalladoCSV.js";
 import { reporteBasicoCSV } from "../../modules/documentos/reportes/reportesCSV/reporteBasicoCSV.js";
 import { reporteXLSX } from "../../modules/documentos/reportes/reportesXLSX/reporteXLSX.js";
-import { insertarPeticiones, insertarDocumentos, insertarCertificados } from "../../modules/baseDatos/prisma/procedimientos/peticiones.js";
-import { reporteBasico, reporteMedio, reporteCompleto, insertarReportes } from "../../modules/baseDatos/prisma/procedimientos/reportes.js";
+import { insertarPeticiones, insertarDocumentos, insertarCertificados } from "../../modules/baseDatos/queryRaw/procedimientos/peticiones.js";
+import { reporteBasico, reporteMedio, reporteCompleto, insertarReportes } from "../../modules/baseDatos/queryRaw/procedimientos/reportes.js";
 import { decodificarToken } from "../../modules/tokens/decodificarToken.js";
 import { nombrePeticionesPDF } from "../../modules/documentos/analizarDocumentosPDF/nombrePeticionesPDF.js";
 import { crearCarpetaReportes } from "../../modules/documentos/reportes/crearCarpetaReportes.js";

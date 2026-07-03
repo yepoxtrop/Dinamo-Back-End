@@ -1,25 +1,24 @@
-//Librerias
+/*Librerias*/
 import express from "express"; 
 import cors from "cors"; 
 import cookieParser from 'cookie-parser';
 
-//Rutas creadas
-//--Inicio de Sesion
+/*Rutas creadas*/
+/*Inicio de Sesion*/
 import rutaInicioSesion from "../src/routes/inicioSesion/inicioSesion.route.js";
 import rutaDatosSesion from "../src/routes/inicioSesion/inicioSesion.route.js";
 import rutaCrearUsuarioManual from "../src/routes/usuarios/crearUsuario.route.js";
 import rutaCrearNuevoTokenAuth from "../src/routes/usuarios/crearUsuario.route.js";
 import rutaCompararTokenAuth from "../src/routes/usuarios/crearUsuario.route.js";
-
-//--Firmas
+/*Firmas*/
 import rutaFirmaIndividual from "../src/routes/firmasDigitales/firmaIndividual.route.js";
 import rutaFirmaMasiva from "../src/routes/firmasDigitales/firmaMasiva.route.js"; 
 import rutaConsultarFirma from "../src/routes/firmasDigitales/firmaIndividual.route.js";
 import rutaDescargarFirma from "../src/routes/firmasDigitales/firmaIndividual.route.js";
-// --Documentos
+/*Documentos*/
 import rutaFirmarDocumentos from "../src/routes/documentos/firmarDocumentos.route.js"
 import rutaValidarDocumentos from "../src/routes/documentos/validarDocumentos.route.js"
-// --Datos de Usuario
+/*Datos de Usuario*/
 import rutaActualizarCorreo from "../src/routes/datosUsuario/datosUsuario.route.js";
 
 

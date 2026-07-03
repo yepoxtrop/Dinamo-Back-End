@@ -1,5 +1,5 @@
 import { crearTokenAuth } from "../../modules/tokens/auth/crearTokenAuth.js";
-import { crearUsuarioManual } from "../../modules/baseDatos/prisma/procedimientos/gestionUsuarios.js";
+import { crearUsuarioManual } from "../../modules/baseDatos/queryRaw/procedimientos/gestionUsuarios.js";
 import { ipDireccion } from "../../modules/apis/ipApi.js";
 import { crifrarContrasena } from "../../modules/tokens/auth/modificarContrasena.js"
 

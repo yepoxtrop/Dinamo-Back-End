@@ -1,5 +1,5 @@
 /* Modilos usados */
-import { insertarFirma } from "../../modules/baseDatos/prisma/procedimientos/firmas.js";
+import { insertarFirma } from "../../modules/baseDatos/queryRaw/procedimientos/firmas.js";
 /* tokens */
 import { decodificarToken } from "../../modules/tokens/decodificarToken.js";
 /* carpetas y archivos */

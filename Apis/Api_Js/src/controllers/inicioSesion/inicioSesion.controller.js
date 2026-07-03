@@ -1,7 +1,7 @@
 
 /* Modilos usados */
-import { sesion } from "../../modules/baseDatos/prisma/procedimientos/sesiones.js";
-import { insertarToken } from "../../modules/baseDatos/prisma/consultas/tokens.js";
+import { sesion } from "../../modules/baseDatos/queryRaw/procedimientos/sesiones.js";
+import { insertarToken } from "../../modules/baseDatos/queryRaw/consultas/tokens.js";
 /* dominio */
 import { validarUsuarioDominio } from "../../modules/dominio/validarUsuarioDominio.js";
 import { consultadrUsuarioDominio } from "../../modules/dominio/consultarUsuarioDominio.js";
