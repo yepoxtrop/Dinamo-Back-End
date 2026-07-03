@@ -858,7 +858,7 @@ insert into tipo_reportes(tipo_reporte_nombre, tipo_reporte_descripcion) values
 	('DETALLADOS', 'Es el reporte con información meidanamente detallada en formato csv, se basa en la vista reporte_medio'),
 	('BASICOS', 'Es el reporte más básico en formato csv, se basa en la vista reporte_basico');
 
---insert into usuarios(usuario_nombre, usuario_nombre_real) values
---	('user_firmas', 'user_firmas', 1),
---	('soporte', 'soporte', 2);
---go;
+insert into usuarios(usuario_nombre,[usuario_email], [usuario_contrasena],[usuario_habilitado],[usuario_estado], [medio_creacion_id_fk]) values
+	('user_firmas', 'lsarmiento@aciel.co', '5oP0rteAci3l!',1,1, 1),
+	('soporte', 'soporte@aciel.co', '5oP0rteAci3l!',1,1, 1);
+go
