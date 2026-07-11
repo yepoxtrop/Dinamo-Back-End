@@ -22,14 +22,18 @@ begin
 	/* Variables locales */
 	declare @id_usuario int;
 	declare @id_rol int;
+
 	/* Consultar usuario */
 	select @id_usuario = [usuario_id] , @id_rol = [rol_id_fk] from [dbo].[usuarios] where [usuario_nombre] = @nombre_dominio_usuario;
+	
 	/* Insertar usuarios SI NO EXISTE */
 	if @id_usuario is null 
 		insert into [dbo].[usuarios]([usuario_nombre], [usuario_nombre_real])
 		values(@nombre_dominio_usuario, @nombre_real_usuario);
 		select @id_usuario = [usuario_id] , @id_rol = [rol_id_fk] from [dbo].[usuarios] where [usuario_nombre] = @nombre_dominio_usuario;
+	
 	/* Insertar sesion */
 	insert into [dbo].[sesiones]([sesion_fecha], [sesion_dispositivo], [usuario_id_fk])
 	values(@fecha_sesion, @dispositivo_sesion, @id_usuario);
 	select @id_usuario as 'id_usuario', @id_rol as 'id_rol'; 
+end

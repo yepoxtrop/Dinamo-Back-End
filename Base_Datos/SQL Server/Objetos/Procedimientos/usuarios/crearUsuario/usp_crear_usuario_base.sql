@@ -90,9 +90,3 @@ begin
 			throw @numeroError, @mensajeError, 1;
 	end catch
 end
-
--- select *from usuarios;
--- select *from sesiones;
--- select *from correos_enviados;
--- delete from  correos_enviados where correo_enviado_id = 5 ;
--- delete from usuarios where usuario_id = 1;

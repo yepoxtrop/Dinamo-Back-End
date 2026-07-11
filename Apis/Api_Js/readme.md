@@ -16,63 +16,13 @@ Esta api es la encargada de:
 El Api, cuenta con la siguiente estructura:
 ```
 Api_Js
-├───certificates                                            #Carpeta en donde se alamcenan los certificados
-├───node_modules                                            #Modulos externos
-├───patches                                                    
-├───prisma                                                  #Carpeta relacionada con las updates de prisma
-│   └───migrations                                          #Carpeta con las migraciones de prisma
-├───reports                                                 #Carpeta donde se almacenan los reportes
-├───src                                                     #Codigo fuente
-│   ├───controllers                                         #Controladores para las rutas
-│   │   ├───datosUsuario
-│   │   ├───documentos
-│   │   ├───firmasDigitales
-│   │   └───inicioSesion
-│   ├───middlewares                                         #Middlewares para las rutas
-│   ├───modules                                             #Modulos para los controladores
-│   │   ├───apis
-│   │   ├───baseDatos
-│   │   │   ├───consultasPrisma
-│   │   │   ├───prisma
-│   │   │   │   ├───consultas
-│   │   │   │   └───procedimientos
-│   │   │   └───uspSqlServer
-│   │   ├───correo
-│   │   ├───documentos
-│   │   │   ├───analizarDocumentosPDF
-│   │   │   └───reportes
-│   │   │       ├───reportesCSV
-│   │   │       ├───reportesPDF
-│   │   │       └───reportesXLSX
-│   │   ├───dominio
-│   │   ├───firmasDigitales
-│   │   │   ├───archivos
-│   │   │   │   ├───creacion
-│   │   │   │   └───renovacion
-│   │   │   ├───carguesMasivos
-│   │   │   └───carpetas
-│   │   └───tokens
-│   │       └───auth
-│   ├───routes
-│   │   ├───datosUsuario
-│   │   ├───documentos
-│   │   ├───firmasDigitales
-│   │   ├───inicioSesion
-│   │   └───usuarios
-│   ├───settings
-│   │   ├───correo
-│   │   │   └───plantillasHTML
-│   │   ├───dominio
-│   │   ├───general
-│   │   ├───others
-│   │   │   └───plantillaCorreo
-│   │   ├───prisma
-│   │   └───tokens
-│   └───temp
-├───uploads                                                    #Cargas
-│   ├───documentosAnalizados
-│   └───signatures
-├───utils                                                #Funciones comunes
+├───certificates         #Carpeta en donde se alamcenan los certificados
+├───node_modules         #Modulos externos
+├───patches                 
+├───prisma               #Carpeta relacionada con las updates de prisma
+├───reports              #Carpeta donde se almacenan los reportes
+├───src                  #Codigo fuente
+├───utils                #Funciones comunes
 
 ```
 **NOTA: Si alguna de las carpetas no aparecen cuando clone el repositorio, tenga en cuenta que unas de ellas se van a crear automaticamente cuando inicie la aplicación en su servidor o en su equipo**

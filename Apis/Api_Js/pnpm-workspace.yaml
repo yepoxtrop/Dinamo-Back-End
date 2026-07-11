@@ -1,5 +1,9 @@
 allowBuilds:
   '@prisma/engines': false
   '@scarf/scarf': set this to true or false
+  '@tree-sitter-grammars/tree-sitter-yaml': true
   bcrypt: false
+  core-js-pure: true
   prisma: false
+  tree-sitter: true
+  tree-sitter-json: true
