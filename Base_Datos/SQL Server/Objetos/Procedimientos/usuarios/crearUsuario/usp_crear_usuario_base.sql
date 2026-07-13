@@ -73,6 +73,7 @@ BEGIN
 			)
 
 			/* Almacenar log */
+			-- Falta logica para almacenar los logs
 		COMMIT TRAN;
 	END TRY
 	BEGIN CATCH

@@ -8,27 +8,28 @@ export async function uspCrearUsuarioBase({usuario, email, contrasena, tokenAute
     }
     
     try { 
-
-        /* Ejecución de procedimiento */
-        const consulta = await clientePrisma.$queryRaw`exec 
-            usp_crear_usuario_base
-                @nombreUsuario = ${usuario},
-                @correoElectronico = ${email},
-                @contrasena = ${contrasena},
-                @codigoAutenticacion = ${tokenAutenticacion},
-                @pais = ${pais},
-                @region = ${region},
-                @fecha = ${fecha},
-                @dispositivo = ${dispositivo}
-       ` 
+        const query = await clientePrisma.usuarios.findMany()
+        console.log(query)
        return true;
     } catch (error) {
-
-        if ( error?.meta?.driverAdapterError?.cause?.code == 50002 ){
-            throw new Error(`${error.meta.driverAdapterError.cause.message}`);
-        }else{
-            console.log(error)
-            throw new Error(`Problemas para ejecutar el usp_crear_usuario_base`);
-        }
+        console.log(error)
+        return false;
     }
 }
+
+uspCrearUsuarioBase({
+    usuario: "el_sapo_rico",
+    email: "pruebas.neo2006@gmail.com",
+    contrasena: "123x456789",
+    tokenAutenticacion: "123456",
+    pais: "COLOMBIA",
+    region: "BOGOTA",
+    fecha: "2026-01-25T19:12:03.788Z",
+    dispositivo: "Android",
+})
+.then((resultado) => {
+    console.log(resultado)
+})
+.catch((error) => {
+    console.log(error)
+})

@@ -1,7 +1,7 @@
 import { crearTokenAuth } from "../../modules/tokens/auth/crearTokenAuth.js";
 import { crearNuevotokenAutenticacion } from "../../modules/baseDatos/queryRaw/procedimientos/gestionUsuarios.js";
 
-export const crearNuevoTokenAuthController = async (request, response) =>{
+export const crearCodigoAutenticacionController = async (request, response) =>{
     try {
         const data = request.body;
 

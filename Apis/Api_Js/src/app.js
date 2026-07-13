@@ -5,7 +5,9 @@ import cookieParser from 'cookie-parser';
 
 /* Rutas creadas */
 /* -> Cuentas */
-import rutaCrearCuenta from "../src/routes/cuenta/crearCuenta.route.js"
+import rutasCrearCuenta from "../src/routes/cuenta/crearCuenta.route.js"
+/* -> Autenticación */
+import rutasCodigoAutenticacion from "../src/routes/autenticacion/tokenAutenticacion.route.js"
 /* Inicio de Sesion */
 import rutaInicioSesion from "../src/routes/inicioSesion/inicioSesion.route.js";
 import rutaDatosSesion from "../src/routes/inicioSesion/inicioSesion.route.js";
@@ -37,7 +39,9 @@ app.set('trust proxy', true);
 
 /* Rutas */
 /* -> Cuentas */
-app.use("/Dinamo_Js",rutaCrearCuenta);
+app.use("/Dinamo_Js",rutasCrearCuenta);
+/* -> Autenticación */
+app.use("/Dinamo_Js",rutasCodigoAutenticacion);
 
 app.use("/Dinamo_Js",rutaCrearNuevoTokenAuth);
 app.use("/Dinamo_Js",rutaCompararTokenAuth);
