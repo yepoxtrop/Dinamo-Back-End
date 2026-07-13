@@ -1,5 +1,5 @@
 /* Modulos usados */
-import { consultarFirma } from "../../modules/baseDatos/prisma/procedimientos/firmas.js"
+import { consultarFirma } from "../../modules/baseDatos/queryRaw/procedimientos/firmas.js"
 import { decodificarToken } from "../../modules/tokens/decodificarToken.js";
 
 /**

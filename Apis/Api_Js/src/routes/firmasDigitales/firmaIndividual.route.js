@@ -9,7 +9,7 @@ import { midlewareTokens } from "../../middlewares/midlewareTokens.js";
 
 let router = express.Router();
 
-router.post("/Firma_Individual", midlewareTokens, firmaIndividualController);
+router.post("/Firma_Individual", /*midlewareTokens,*/ firmaIndividualController);
 router.get("/Descargar_Firma", midlewareTokens, descargarFirmaController);
 router.get("/Consultar_Firma", midlewareTokens, consultarFirmaController);
 

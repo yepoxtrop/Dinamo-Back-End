@@ -249,6 +249,8 @@ model logs {
   log_dispositivo_peticion String     @db.NVarChar(100)
   log_tipo_id_fk           Int
   usuario_id_fk            Int?
+  log_pais_peticion        String     @db.NVarChar(30)
+  log_region_peticion      String     @db.NVarChar(100)
   tipos_logs               tipos_logs @relation(fields: [log_tipo_id_fk], references: [tipo_log_id], onUpdate: NoAction, map: "fk_tipo_log_en_log")
   usuarios                 usuarios?  @relation(fields: [usuario_id_fk], references: [usuario_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_usuario_en_log")
 }

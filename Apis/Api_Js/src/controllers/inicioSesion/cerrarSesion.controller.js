@@ -3,7 +3,7 @@
 /* tokens */
 import { validarToken } from "../../modules/tokens/validarToken.js";
 /* base de datos */
-import { eliminarToken } from "../../modules/baseDatos/prisma/consultas/tokens.js";
+import { eliminarToken } from "../../modules/baseDatos/queryRaw/consultas/tokens.js";
 
 /**
  * Controlador para gestionar el cierre de sesión de los usuarios del sistema.

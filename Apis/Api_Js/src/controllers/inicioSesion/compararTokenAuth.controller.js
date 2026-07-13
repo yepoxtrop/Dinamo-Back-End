@@ -1,4 +1,4 @@
-import { consultarTokenAuth } from "../../modules/baseDatos/prisma/consultas/gestionUsuarios.js"
+import { consultarTokenAuth } from "../../modules/baseDatos/queryRaw/consultas/gestionUsuarios.js"
 
 export const compararTokenAuthController = async(request, response) =>{
     try {

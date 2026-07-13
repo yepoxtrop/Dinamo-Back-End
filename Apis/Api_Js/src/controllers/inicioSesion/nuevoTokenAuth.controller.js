@@ -1,5 +1,5 @@
 import { crearTokenAuth } from "../../modules/tokens/auth/crearTokenAuth.js";
-import { crearNuevoTokenAuth } from "../../modules/baseDatos/prisma/procedimientos/gestionUsuarios.js";
+import { crearNuevotokenAutenticacion } from "../../modules/baseDatos/queryRaw/procedimientos/gestionUsuarios.js";
 
 export const crearNuevoTokenAuthController = async (request, response) =>{
     try {

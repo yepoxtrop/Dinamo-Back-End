@@ -1,6 +1,6 @@
 /* Modulos usados */
 import { decodificarToken } from "../../modules/tokens/decodificarToken.js";
-import { consultarRutaFirma } from "../../modules/baseDatos/prisma/consultas/firmas.js";
+import { consultarRutaFirma } from "../../modules/baseDatos/queryRaw/consultas/firmas.js";
 
 /**
  * Controlador para descargar la firma digital del usuario autenticado.

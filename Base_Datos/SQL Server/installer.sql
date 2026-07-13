@@ -6,6 +6,9 @@
 ========================================================================================================================
 */
 
+
+
+
 :r "C:\Users\luis.sarmiento\Desktop\Proyectos\Dinamo\Dinamo-Back-End\Base_Datos\SQL Server\Objetos\Vistas\vistasReportes.sql";
 go
 

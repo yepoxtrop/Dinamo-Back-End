@@ -1,0 +1,10 @@
+# Servicios de Direcciones IP'S
+En este folder encontrara funciones dedicadas a trabajar con el funcionamiento de direcciones IP'S, ya sea para obtener la direccion IP del cliente o para obtener la geolocalizacion de una direccion IP.
+
+**NOTA: Si son necesarias más funcionalidades con las direcciones ip se agregaran posteriormente**
+
+Actualmente dentro de esta carpeta hay dos funciones cruciales para el funcionamiento de la API, sin embargo, una de ella si se aplica estrictamente al backend, mientras que la otra se puede utilzar en el frontend, ya que es una función exclusiva que trabaja del lado del cliente, es decir, que obtiene la direccion IP del cliente y la devuelve al backend para su posterior uso. Las funciones son:
+- `ipDireccion`: Esta función se encarga de obtener la direccion ip pública del cliente o del entorno donde se ejecute la función, ya sea en front o back, esta función esta diseñada para ser un hook del frontend, sin embargo, puede ser utilizada en el backend, ya que es una función que no depende de la interfaz de usuario. Esta función devuelve un objeto con la direccion ip y el tipo de direccion ip (IPv4 o IPv6). **NOTA: Tenga en cuenta que esta función es asincrona y hace una petición HTTP a un servicio externo para obtener la dirección ip**. El servicio usado es: `https://api.ipify.org/?format=json%27)`. 
+- `ipGeolocalizacion`: Esta función se encarga de obtener la geolocalización de una dirección ip, ya sea la del cliente o la de cualquier otra dirección ip que se le pase como parámetro. **NOTA: Tenga en cuenta que esta función es asincrona y hace una petición HTTP a un servicio externo para obtener la geolocalización de la dirección ip**. El servicio usado es: `https://ipapi.co/${ip}/json/`. Esta función devuelve un objeto con la información de geolocalización de la dirección ip, como el país, ciudad, región, código postal, latitud y longitud.
+
+**NOTA: Tenga en cuenta que el modulo usado para realizar las peticiones HTTP es `axios`, por lo que es necesario tenerlo instalado en el proyecto para poder usar estas funciones.**

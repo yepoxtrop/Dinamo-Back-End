@@ -1,5 +1,5 @@
 /* Modulos */
-import { actualizarCorreo } from "../../modules/baseDatos/prisma/consultas/correos.js";
+import { actualizarCorreo } from "../../modules/baseDatos/queryRaw/consultas/correos.js";
 import { decodificarToken } from "../../modules/tokens/decodificarToken.js";
 
 /**

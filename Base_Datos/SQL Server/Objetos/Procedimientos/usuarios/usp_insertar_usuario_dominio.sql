@@ -1,4 +1,4 @@
-/*========================================================================================================================
+﻿/*========================================================================================================================
 FECHA CREACION: 2026/05/19
 AUTOR         : LUIS ANGEL SARMIENTO DIAZ
 DETALLE       : Procedimiento que crea usuario usuario base al crear un nuevo usuario de forma manual en el Dinamo.
@@ -90,9 +90,3 @@ begin
 			throw @numeroError, @mensajeError, 1;
 	end catch
 end
-
--- select *from usuarios;
--- select *from sesiones;
--- select *from correos_enviados;
--- delete from  correos_enviados where correo_enviado_id = 5 ;
--- delete from usuarios where usuario_id = 1;

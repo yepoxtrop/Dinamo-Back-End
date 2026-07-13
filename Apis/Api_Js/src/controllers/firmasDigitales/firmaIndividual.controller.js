@@ -1,5 +1,5 @@
 /* Modilos usados */
-import { insertarFirma } from "../../modules/baseDatos/prisma/procedimientos/firmas.js";
+import { insertarFirma } from "../../modules/baseDatos/queryRaw/procedimientos/firmas.js";
 /* tokens */
 import { decodificarToken } from "../../modules/tokens/decodificarToken.js";
 /* carpetas y archivos */
@@ -28,10 +28,10 @@ export const firmaIndividualController = async (request, response) => {
     const datos = request.body;
 
     const cookieToken = request.cookies.token; 
-    const infoToken = await decodificarToken(cookieToken);
+    //const infoToken = await decodificarToken(cookieToken);
 
-    const nombreDominioUsuario = infoToken.Resultado["nombreUsuario"];
-    const nombreRealUsuario = infoToken.Resultado["nombreCompletoUsuario"];
+    //const nombreDominioUsuario = infoToken.Resultado["nombreUsuario"];
+    //const nombreRealUsuario = infoToken.Resultado["nombreCompletoUsuario"];
 
     try{
 
@@ -52,17 +52,17 @@ export const firmaIndividualController = async (request, response) => {
         });
 
         /* Insertar Firma, llave privada y contraseña en la base de datos */
-        await insertarFirma({
-            nombreUsuario: nombreDominioUsuario,
-            contarsenaFirma: datos.contrasena,
-            llavePrivada: peticionArchivos.llave_privada,
-            ubicacionPub: peticionRutaFirmas.rutaArchivoPub,
-            ubicacionCrt: peticionRutaFirmas.rutaArchivoCrt,
-            ubicacionP12: peticionRutaFirmas.rutaArchivoP12,
-            fechaCreacion: peticionArchivos.fecha_creacion,
-            fechaVencimiento: peticionArchivos.fecha_vencimiento,
-            tipoFirma: 1
-        });
+        // await insertarFirma({
+        //     nombreUsuario: nombreDominioUsuario,
+        //     contarsenaFirma: datos.contrasena,
+        //     llavePrivada: peticionArchivos.llave_privada,
+        //     ubicacionPub: peticionRutaFirmas.rutaArchivoPub,
+        //     ubicacionCrt: peticionRutaFirmas.rutaArchivoCrt,
+        //     ubicacionP12: peticionRutaFirmas.rutaArchivoP12,
+        //     fechaCreacion: peticionArchivos.fecha_creacion,
+        //     fechaVencimiento: peticionArchivos.fecha_vencimiento,
+        //     tipoFirma: 1
+        // });
 
         /* Enviar correo con firma anexa */
 
